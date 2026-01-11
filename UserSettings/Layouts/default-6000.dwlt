@@ -119,7 +119,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 128
+  controlID: 19
   draggingID: 0
 --- !u!114 &6
 MonoBehaviour:
@@ -274,8 +274,8 @@ MonoBehaviour:
     y: 0
     width: 638
     height: 911
-  m_MinSize: {x: 276, y: 76}
-  m_MaxSize: {x: 4001, y: 4026}
+  m_MinSize: {x: 275, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 19}
   m_Panes:
   - {fileID: 19}
@@ -473,10 +473,10 @@ MonoBehaviour:
     m_OverlaysVisible: 1
   m_SceneHierarchy:
     m_TreeViewState:
-      scrollPos: {x: 0, y: 1140}
-      m_SelectedIDs: 0429ffff
-      m_LastClickedID: -55036
-      m_ExpandedIDs: 3699feff6ebbfeff0429ffff723bffff2856ffffcc69ffffee8effffb2a6ffff92a9ffff0eaeffff96b3ffff26daffff9adcfffffef6ffff14fbffff70bf000040eb000090f3000098f6000012f80000
+      scrollPos: {x: 0, y: 1940}
+      m_SelectedIDs: 14240100
+      m_LastClickedID: 0
+      m_ExpandedIDs: 6036ffffe246ffff42f3ffff72f5ffff72f6ffff3af7ffff7ef8ffff14fbffffbebe0000ecbf000058c00000e6c10000a2c20000eec3000014c40000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -1038,9 +1038,9 @@ MonoBehaviour:
   m_AudioPlay: 0
   m_DebugDrawModesUseInteractiveLightBakingData: 0
   m_Position:
-    m_Target: {x: 14.165905, y: 2.6430006, z: 19.479}
+    m_Target: {x: 1.4605924, y: 2.5781064, z: 19.469528}
     speed: 2
-    m_Value: {x: 14.165905, y: 2.6430006, z: 19.479}
+    m_Value: {x: 1.4605924, y: 2.5781064, z: 19.469528}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -1078,7 +1078,7 @@ MonoBehaviour:
       m_Fade:
         m_Target: 0
         speed: 2
-        m_Value: 1
+        m_Value: 0
       m_Color: {r: 0.5, g: 0.5, b: 0.5, a: 0.4}
       m_Pivot: {x: 0, y: 0, z: 0}
       m_Size: {x: 1, y: 1}
@@ -1086,13 +1086,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: 0.031322703, y: 0.8642596, z: -0.053762093, w: 0.50012106}
+    m_Target: {x: 0.0067541017, y: -0.9669762, z: 0.03449986, w: 0.25586212}
     speed: 2
-    m_Value: {x: 0.030914396, y: 0.863897, z: -0.053055394, w: 0.49991134}
+    m_Value: {x: 0.006552095, y: -0.96616024, z: 0.033726018, w: 0.25564435}
   m_Size:
-    m_Target: 2.162994
+    m_Target: 3.2209373
     speed: 2
-    m_Value: 2.1629956
+    m_Value: 3.2209373
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -5419,7 +5419,7 @@ MonoBehaviour:
     m_SkipHidden: 1
     m_SearchArea: 1
     m_Folders:
-    - Assets/UnityTechnologies/Basic Asset Pack Interior/Models
+    - Assets/Modern Archviz Leafless/Assets/Materials/Wood/WoodFine_2k
     m_Globs: []
     m_ProductIds: 
     m_AnyWithAssetOrigin: 0
@@ -5429,16 +5429,16 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 46
   m_LastFolders:
-  - Assets/UnityTechnologies/Basic Asset Pack Interior/Models
+  - Assets/Modern Archviz Leafless/Assets/Materials/Wood/WoodFine_2k
   m_LastFoldersGridSize: 46
   m_LastProjectPath: /home/fatih/Downloads/VR-Training
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 474}
-    m_SelectedIDs: 20e10000
-    m_LastClickedID: 57632
-    m_ExpandedIDs: 00000000d0d60000d4d60000d6d60000d8d60000eed80000f0d80000fad8000006d90000f2e0000020e1000070e10000fee300000ae4000010e4000016e4000000ca9a3b
+    m_SelectedIDs: 14240100
+    m_LastClickedID: 74772
+    m_ExpandedIDs: 00000000aed90000b0d90000b2d90000b4d90000b6d90000b8d90000bad90000bcd90000bed90000c0d90000c2d900003edb00004adb000050db000052db0000e8230100ea230100ec230100ee230100f0230100002401007a24010000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -5467,7 +5467,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000d0d60000d2d60000d4d60000d6d60000d8d60000
+    m_ExpandedIDs: 00000000aed90000b0d90000b2d90000b4d90000b6d90000b8d90000bad90000bcd90000bed90000c0d90000c2d90000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -5604,7 +5604,7 @@ MonoBehaviour:
     m_ControlHash: -371814159
     m_PrefName: Preview_InspectorPreview
   m_LastInspectedObjectInstanceID: -1
-  m_LastVerticalScrollValue: 0
+  m_LastVerticalScrollValue: 261
   m_GlobalObjectId: 
   m_InspectorMode: 0
   m_LockTracker:
