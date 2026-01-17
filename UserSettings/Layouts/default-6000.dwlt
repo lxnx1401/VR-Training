@@ -119,7 +119,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 124
+  controlID: 19
   draggingID: 0
 --- !u!114 &6
 MonoBehaviour:
@@ -140,12 +140,12 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1272
+    width: 1366
     height: 911
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 57
+  controlID: 20
   draggingID: 0
 --- !u!114 &7
 MonoBehaviour:
@@ -166,12 +166,12 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1272
+    width: 1366
     height: 619
   m_MinSize: {x: 200, y: 50}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 58
+  controlID: 21
   draggingID: 0
 --- !u!114 &8
 MonoBehaviour:
@@ -190,7 +190,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 366
+    width: 390
     height: 619
   m_MinSize: {x: 201, y: 226}
   m_MaxSize: {x: 4001, y: 4026}
@@ -214,9 +214,9 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 366
+    x: 390
     y: 0
-    width: 906
+    width: 976
     height: 619
   m_MinSize: {x: 202, y: 226}
   m_MaxSize: {x: 4002, y: 4026}
@@ -245,7 +245,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 619
-    width: 1272
+    width: 1366
     height: 292
   m_MinSize: {x: 231, y: 276}
   m_MaxSize: {x: 10001, y: 10026}
@@ -270,9 +270,9 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 1272
+    x: 1366
     y: 0
-    width: 638
+    width: 544
     height: 911
   m_MinSize: {x: 276, y: 76}
   m_MaxSize: {x: 4001, y: 4026}
@@ -458,7 +458,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 5
     y: 129
-    width: 365
+    width: 389
     height: 593
   m_SerializedDataModeController:
     m_DataMode: 0
@@ -473,10 +473,10 @@ MonoBehaviour:
     m_OverlaysVisible: 1
   m_SceneHierarchy:
     m_TreeViewState:
-      scrollPos: {x: 0, y: 172}
-      m_SelectedIDs: 30f8ffff
-      m_LastClickedID: -2000
-      m_ExpandedIDs: dcf3ffff54f4ffff14f5ffff3af5ffff14fbffff34bd000054bd00008cbe0000d4be00001abf00006ebf0000f0bf0000f8bf0000b6c00000d8c1000036c20000dec200000ec300006ec300009ac30000a6c30000c0c30000c8c30000e6c40000
+      scrollPos: {x: 0, y: 0}
+      m_SelectedIDs: c2ea0000
+      m_LastClickedID: 60098
+      m_ExpandedIDs: a0d4ffff4aeeffff70eeffff14fbffff34bd0000fec3000060c40000c0e80000feeb00009aec00008eee00008aef000056f10000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -522,9 +522,9 @@ MonoBehaviour:
     m_TextWithWhitespace: "Scene\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 371
+    x: 395
     y: 129
-    width: 904
+    width: 974
     height: 593
   m_SerializedDataModeController:
     m_DataMode: 0
@@ -1038,9 +1038,9 @@ MonoBehaviour:
   m_AudioPlay: 0
   m_DebugDrawModesUseInteractiveLightBakingData: 0
   m_Position:
-    m_Target: {x: 4.4597483, y: 2.0899935, z: 25.003397}
+    m_Target: {x: -2.4377427, y: 8.378824, z: -25.007544}
     speed: 2
-    m_Value: {x: 4.4597483, y: 2.0899935, z: 25.003397}
+    m_Value: {x: -2.4377427, y: 8.378824, z: -25.007544}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -1086,9 +1086,9 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: -0.061341394, y: 0.89235115, z: -0.13309766, w: -0.429991}
+    m_Target: {x: 0.21952459, y: 0.0036438976, z: 0.0008935121, w: 0.9769916}
     speed: 2
-    m_Value: {x: -0.061655965, y: 0.8898821, z: -0.13273771, w: -0.4320751}
+    m_Value: {x: 0.21776158, y: 0.0021736084, z: 0.0012244192, w: 0.9759988}
   m_Size:
     m_Target: 0.92311525
     speed: 2
@@ -5395,7 +5395,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 5
     y: 748
-    width: 1271
+    width: 1365
     height: 266
   m_SerializedDataModeController:
     m_DataMode: 0
@@ -5419,7 +5419,7 @@ MonoBehaviour:
     m_SkipHidden: 1
     m_SearchArea: 1
     m_Folders:
-    - Assets
+    - Assets/Modern Archviz Leafless/Scenes
     m_Globs: []
     m_ProductIds: 
     m_AnyWithAssetOrigin: 0
@@ -5429,16 +5429,16 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 46
   m_LastFolders:
-  - Assets
+  - Assets/Modern Archviz Leafless/Scenes
   m_LastFoldersGridSize: 46
   m_LastProjectPath: /home/fatih/Downloads/VR-Training
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 62}
-    m_SelectedIDs: 0edb0000
-    m_LastClickedID: 56078
-    m_ExpandedIDs: 000000000edb000010db000012db000014db000016db000018db00001adb00001cdb00001edb000020db000022db000000ca9a3b
+    scrollPos: {x: 0, y: 314}
+    m_SelectedIDs: 30de0000
+    m_LastClickedID: 56880
+    m_ExpandedIDs: 00000000b8db0000badb0000bcdb0000bedb0000c0db0000c2db0000c4db0000c6db0000c8db0000cadb0000ccdb0000e4dd000030de000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -5467,7 +5467,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000000edb000010db000012db000014db000016db000018db00001adb00001cdb00001edb000020db000022db0000
+    m_ExpandedIDs: 00000000b8db0000badb0000bcdb0000bedb0000c0db0000c2db0000c4db0000c6db0000c8db0000cadb0000ccdb0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -5495,7 +5495,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 0
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c62300003202010038cd000062ce00004a1701005ece0000a4280100
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -5582,9 +5582,9 @@ MonoBehaviour:
     m_TextWithWhitespace: "Inspector\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 1277
+    x: 1371
     y: 129
-    width: 637
+    width: 543
     height: 885
   m_SerializedDataModeController:
     m_DataMode: 0
