@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: e24884285d6817e4b9fdcccde777da1b
+guid: a6c13dd07c2eb5349b0f4610da1465e8
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
@@ -31,11 +31,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: breakdance
+      name: back
       takeName: mixamo.com
       internalID: -203655887218126122
       firstFrame: 0
-      lastFrame: 105
+      lastFrame: 39
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
