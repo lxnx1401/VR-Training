@@ -5,7 +5,7 @@ public class SafeZoneController : MonoBehaviour
     [Header("Detection Settings")]
     public Transform playerTransform; 
     public float detectionRadius = 2.0f; 
-    public LayerMask obstacleLayer; // SAKIN "Everything" YAPMA, SADECE "Obstacle" KATMANINI SEÇ
+    public LayerMask obstacleLayer;
 
     [Header("Color Materials")]
     public Material greenMaterial;
@@ -15,6 +15,9 @@ public class SafeZoneController : MonoBehaviour
     [Header("Visualizer")]
     public MeshRenderer zoneRenderer;
 
+    [Header("Robot UI")] // YENİ: Kafadaki scripti buraya bağlayacağız
+    public RobotStatusManager statusManager;
+
     void Update()
     {
         UpdateSafetyLogic();
@@ -22,13 +25,12 @@ public class SafeZoneController : MonoBehaviour
 
     void UpdateSafetyLogic()
     {
-        // 1. ENGEL KONTROLÜ (OverlapSphere)
+        // 1. ENGEL KONTROLÜ
         Collider[] obstacles = Physics.OverlapSphere(transform.position, detectionRadius, obstacleLayer);
         bool dangerFound = false;
 
         foreach (var col in obstacles)
         {
-            // Player'ı ve zemini engel saymasın diye kontrol
             if (!col.CompareTag("Player") && col.gameObject != this.gameObject)
             {
                 dangerFound = true;
@@ -36,32 +38,33 @@ public class SafeZoneController : MonoBehaviour
             }
         }
 
-        // 2. OYUNCU MESAFESİ (Yüksekliği görmezden geliyoruz)
+        // 2. OYUNCU MESAFESİ
         Vector3 zonePos = transform.position;
         Vector3 playerPos = playerTransform.position;
-        
-        // Y değerlerini eşitliyoruz ki sadece yerdeki uzaklığa baksın
         zonePos.y = 0;
         playerPos.y = 0;
 
         float horizontalDistance = Vector3.Distance(zonePos, playerPos);
         bool playerInside = horizontalDistance <= detectionRadius;
 
-        // 3. RENK UYGULAMA VE DEBUG
+        // 3. RENK UYGULAMA VE YAZI GÜNCELLEME
         if (dangerFound)
         {
             zoneRenderer.material = redMaterial;
-            // Debug.Log("Status: RED (Obstacle Detected)");
+            // YENİ: Kırmızı durumunu kafaya bildir
+            if(statusManager != null) statusManager.UpdateStatus("Red");
         }
         else if (playerInside)
         {
             zoneRenderer.material = yellowMaterial;
-            // Debug.Log("Status: YELLOW (Player Inside)");
+            // YENİ: Sarı durumunu kafaya bildir
+            if(statusManager != null) statusManager.UpdateStatus("Yellow");
         }
         else
         {
             zoneRenderer.material = greenMaterial;
-            // Debug.Log("Status: GREEN (Clear)");
+            // YENİ: Yeşil durumunu kafaya bildir
+            if(statusManager != null) statusManager.UpdateStatus("Green");
         }
     }
 
