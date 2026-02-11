@@ -5,6 +5,8 @@ public class SafeZoneController : MonoBehaviour
     [Header("Detection Settings")]
     public Transform playerTransform; 
     public float detectionRadius = 2.0f; 
+    // YENİ: Dedektörün merkezini yerden ne kadar yukarı kaldıralım?
+    public float detectionHeightOffset = 0.5f; 
     public LayerMask obstacleLayer;
 
     [Header("Color Materials")]
@@ -15,7 +17,7 @@ public class SafeZoneController : MonoBehaviour
     [Header("Visualizer")]
     public MeshRenderer zoneRenderer;
 
-    [Header("Robot UI")] // YENİ: Kafadaki scripti buraya bağlayacağız
+    [Header("Robot UI")]
     public RobotStatusManager statusManager;
 
     void Update()
@@ -25,12 +27,15 @@ public class SafeZoneController : MonoBehaviour
 
     void UpdateSafetyLogic()
     {
-        // 1. ENGEL KONTROLÜ
-        Collider[] obstacles = Physics.OverlapSphere(transform.position, detectionRadius, obstacleLayer);
+        // 1. ENGEL KONTROLÜ (Merkez noktası artık yukarıda)
+        Vector3 detectionCenter = transform.position + Vector3.up * detectionHeightOffset;
+        Collider[] obstacles = Physics.OverlapSphere(detectionCenter, detectionRadius, obstacleLayer);
+        
         bool dangerFound = false;
 
         foreach (var col in obstacles)
         {
+            // Kendimizi, Player'ı veya zemini algılamamak için ek güvenlik
             if (!col.CompareTag("Player") && col.gameObject != this.gameObject)
             {
                 dangerFound = true;
@@ -38,7 +43,7 @@ public class SafeZoneController : MonoBehaviour
             }
         }
 
-        // 2. OYUNCU MESAFESİ
+        // 2. OYUNCU MESAFESİ (Yerdeki yatay mesafe kontrolü aynı kalıyor)
         Vector3 zonePos = transform.position;
         Vector3 playerPos = playerTransform.position;
         zonePos.y = 0;
@@ -51,26 +56,25 @@ public class SafeZoneController : MonoBehaviour
         if (dangerFound)
         {
             zoneRenderer.material = redMaterial;
-            // YENİ: Kırmızı durumunu kafaya bildir
             if(statusManager != null) statusManager.UpdateStatus("Red");
         }
         else if (playerInside)
         {
             zoneRenderer.material = yellowMaterial;
-            // YENİ: Sarı durumunu kafaya bildir
             if(statusManager != null) statusManager.UpdateStatus("Yellow");
         }
         else
         {
             zoneRenderer.material = greenMaterial;
-            // YENİ: Yeşil durumunu kafaya bildir
             if(statusManager != null) statusManager.UpdateStatus("Green");
         }
     }
 
+    // Gizmos kısmını da güncelledim ki Inspector'da neresi taranıyor gör
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, detectionRadius);
+        Vector3 detectionCenter = transform.position + Vector3.up * detectionHeightOffset;
+        Gizmos.DrawWireSphere(detectionCenter, detectionRadius);
     }
 }
