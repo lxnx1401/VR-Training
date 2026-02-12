@@ -18,10 +18,11 @@ public class SafeZoneController : MonoBehaviour
 
     [Header("Robot UI & Audio")]
     public RobotStatusManager statusManager;
-    // YENİ: Konuşma sistemine erişim
     public RobotSpeechManager speechManager; 
 
+    // Görevlerin sadece birer kez tetiklenmesi için bayraklar
     private bool task3Completed = false;
+    private bool task4Completed = false;
 
     void Update()
     {
@@ -35,7 +36,6 @@ public class SafeZoneController : MonoBehaviour
         Collider[] obstacles = Physics.OverlapSphere(detectionCenter, detectionRadius, obstacleLayer);
         
         bool dangerFound = false;
-
         foreach (var col in obstacles)
         {
             if (!col.CompareTag("Player") && col.gameObject != this.gameObject)
@@ -45,39 +45,50 @@ public class SafeZoneController : MonoBehaviour
             }
         }
 
-        // 2. OYUNCU MESAFESİ
+        // 2. OYUNCU MESAFESİ (Yerdeki yatay mesafe)
         Vector3 zonePos = transform.position;
         Vector3 playerPos = playerTransform.position;
-        zonePos.y = 0;
-        playerPos.y = 0;
-
+        zonePos.y = 0; playerPos.y = 0;
         float horizontalDistance = Vector3.Distance(zonePos, playerPos);
         bool playerInside = horizontalDistance <= detectionRadius;
 
-        // 3. RENK UYGULAMA VE GÖREV KONTROLÜ
+        // 3. RENK UYGULAMA VE ARKADAŞININ İSTEDİĞİ GÜVENLİK MANTIĞI
         if (dangerFound)
         {
+            // KIRMIZI: Alanda yabancı madde var (Engel)!
             zoneRenderer.material = redMaterial;
             if(statusManager != null) statusManager.UpdateStatus("Red");
         }
-        else if (playerInside)
+        else if (playerInside) 
         {
+            // SARI: Engel yok ama OYUNCU robotun dibinde (Uzaklaşması lazım).
             zoneRenderer.material = yellowMaterial;
             if(statusManager != null) statusManager.UpdateStatus("Yellow");
+
+            // GÖREV 3 TAMAMLANIR: Robotu güvenli yere bıraktın ama hala dibindesin.
+            // (3. Cümle: Index 2 - "Robotu güvenli yere koy")
+            if (speechManager != null && speechManager.GetCurrentIndex() == 2 && 
+                speechManager.isWaitingForTask && !task3Completed)
+            {
+                task3Completed = true; 
+                speechManager.isWaitingForTask = false; 
+                speechManager.PlayNextLine(); // Robot: "Şimdi SafeSpot'a git" der.
+            }
         }
-        else // BURASI YEŞİL DURUMU
+        else 
         {
+            // YEŞİL: Engel yok VE oyuncu güvenli mesafede (Dışarı çıktı).
             zoneRenderer.material = greenMaterial;
             if(statusManager != null) statusManager.UpdateStatus("Green");
 
-            // --- ETKİLEŞİMLİ EĞİTİM MANTIĞI ---
-            // Eğer 3. cümledeysek (Robotu Taşı Görevi) ve alan yeşilse:
-            if (speechManager != null && speechManager.GetCurrentIndex() == 2 && !task3Completed)
+            // GÖREV 4 TAMAMLANIR: Oyuncu güvenli mesafeye çekildi.
+            // (4. Cümle: Index 3 - "SafeSpot'a git ve aktif et")
+            if (speechManager != null && speechManager.GetCurrentIndex() == 3 && 
+                speechManager.isWaitingForTask && !task4Completed)
             {
-                // Robotun "Waiting" modunu kapat ve bir sonraki cümleye (Great!) geç
-                task3Completed = true; // Bu görevin bir kez tetiklenmesi için
+                task4Completed = true; 
                 speechManager.isWaitingForTask = false; 
-                speechManager.PlayNextLine(); 
+                speechManager.PlayNextLine(); // Robot: "Eğitim bitti, sistem aktif!"
             }
         }
     }

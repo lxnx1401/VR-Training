@@ -1,38 +1,68 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
+
 
 public class HUDController : MonoBehaviour
 {
-    [Header("Panels")]
-    public GameObject subtitleGroup;  // Altyazı grubu
-    public GameObject pauseMenuGroup; // Menü grubu
+    [Header("UI Groups")]
+    public GameObject pauseMenuGroup; 
+    public GameObject subtitleGroup;  
+
+    [Header("Input")]
+    public InputActionReference pauseAction;
+
+   
+   
 
     private bool isPaused = false;
 
     void Start()
     {
-        // Oyun başında menü kapalı, altyazı açık başlasın
-        subtitleGroup.SetActive(true);
-        pauseMenuGroup.SetActive(false);
+       
+        
+        ResumeGame();
     }
 
     void Update()
     {
-        // ESC'ye basınca menüyü aç/kapat
-        if (Input.GetKeyDown(KeyCode.Escape))
+        bool pcPress = Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame;
+        bool vrPress = pauseAction != null && pauseAction.action.triggered;
+
+        if (pcPress || vrPress)
         {
-            TogglePauseMenu();
+            if (isPaused) ResumeGame();
+            else PauseGame();
         }
     }
 
-    public void TogglePauseMenu()
+    public void PauseGame()
     {
-        isPaused = !isPaused;
+        isPaused = true;
+        Time.timeScale = 0f; 
         
-        pauseMenuGroup.SetActive(isPaused);
-        // Menü açıkken altyazı kapansın ki görüntü kirliliği olmasın
-        subtitleGroup.SetActive(!isPaused);
+        pauseMenuGroup.SetActive(true);
+        subtitleGroup.SetActive(false);
 
-        // VR'da oyunu gerçekten durdurmak istersen (isteğe bağlı):
-        // Time.timeScale = isPaused ? 0f : 1f; 
+        
     }
+
+    public void ResumeGame()
+    {
+        isPaused = false;
+        Time.timeScale = 1f; 
+        
+        pauseMenuGroup.SetActive(false);
+        subtitleGroup.SetActive(true);
+        
+        
+    }
+
+    public void RestartLevel()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void QuitGame() => Application.Quit();
 }
