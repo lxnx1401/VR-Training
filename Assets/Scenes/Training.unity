@@ -870,15 +870,15 @@ GameObject:
   - component: {fileID: 96181879}
   - component: {fileID: 96181878}
   - component: {fileID: 96181882}
-  - component: {fileID: 96181883}
   - component: {fileID: 96181884}
+  - component: {fileID: 96181885}
   m_Layer: 5
   m_Name: GuideCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &96181878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -954,12 +954,13 @@ RectTransform:
   m_LocalScale: {x: 0.0025695674, y: 0.0030210186, z: 0.0030210186}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 930064581}
+  - {fileID: 546229628}
+  - {fileID: 278391536}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 2.878, y: -1.669}
+  m_AnchoredPosition: {x: 2.878, y: -0.14}
   m_SizeDelta: {x: 859, y: 483}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &96181882
@@ -977,30 +978,6 @@ MonoBehaviour:
   cameraTransform: {fileID: 891517874}
   distance: 1.5
   followSpeed: 5
---- !u!114 &96181883
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 96181877}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bbc3466f74bfdcdc5a929e98c5a1df7c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  guideTextField: {fileID: 1934040018}
-  nextButton: {fileID: 1434734063}
-  guideSentences:
-  - Welcome! You are now performing a safety training with our humanoid robot Unitree
-    G1.
-  - You will always receive short theoretical instructions first to understand the
-    safety aspects, then you will carry out the learned tasks practically.
-  - If you make mistakes or successfully complete a task, you will receive appropriate
-    feedback.
-  - Once you have successfully completed the training, you can prove yourself in
-    a challenge, which you can start directly after the training.
-  - We wish you much success with 'How to Robot'.
 --- !u!114 &96181884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1020,6 +997,20 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RaycastTriggerInteraction: 1
+--- !u!114 &96181885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 96181877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 681998d2c0e8a92e0872a5983eed4f70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  subtitleGroup: {fileID: 546229627}
+  pauseMenuGroup: {fileID: 278391535}
 --- !u!1 &97830564
 GameObject:
   m_ObjectHideFlags: 0
@@ -2638,6 +2629,137 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!82 &171242938
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 171242931}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &171242939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 171242931}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d36efbd9970bacd0385aa809c60755c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  dialogueLines:
+  - audioClip: {fileID: 8300000, guid: f926d84e45a88e7c79f51772c62a4427, type: 3}
+    subtitle: Welcome to the Unitree G1 Safety Training. I am your assistant. Before
+      we start the robot, we must ensure a safe environment. Typical risks include
+      collisions, the robot falling, or unexpected movements.
+  - audioClip: {fileID: 8300000, guid: cc5c6aa69c196d1839b1e9e49961647e, type: 3}
+    subtitle: To prevent accidents, the robot must be in a safe starting position.
+      Ensure the floor is clear and there are no objects or people within 2 meters
+      of the robot.
+  - audioClip: {fileID: 8300000, guid: ff9cc302b658755dd8a98b5d65e3a32d, type: 3}
+    subtitle: "Task one: Please move the robot to a clear area. Watch the zone around
+      the robot; it will turn green when the area is safe. Go ahead, I\u2019m waiting."
+  - audioClip: {fileID: 8300000, guid: 57a824c260c4052efb2486446c118b0c, type: 3}
+    subtitle: Great! The robot is now in a safe position. Now, please step into the
+      green 'Safe Spot' marker outside the zone. You must stay there while activating
+      the robot via your mobile app.
+  isWaitingForTask: 0
+  subtitleText: {fileID: 582177647}
+  subtitleGroup: {fileID: 546229627}
+  audioSource: {fileID: 171242938}
+  typeSpeed: 0.05
+  nextLineAction: {fileID: 0}
 --- !u!1 &173264213
 GameObject:
   m_ObjectHideFlags: 0
@@ -3561,6 +3683,42 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4476934685808224, guid: 13823e75e1815a345a0847f9749054d8, type: 3}
   m_PrefabInstance: {fileID: 268805008}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &278391535
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 278391536}
+  m_Layer: 5
+  m_Name: Pause_Menu
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &278391536
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 278391535}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 930064581}
+  m_Father: {fileID: 96181881}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &285125819
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9697,6 +9855,42 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4476934685808224, guid: 13823e75e1815a345a0847f9749054d8, type: 3}
   m_PrefabInstance: {fileID: 543654641}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &546229627
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 546229628}
+  m_Layer: 5
+  m_Name: Untertitel_Group
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &546229628
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 546229627}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 582177645}
+  m_Father: {fileID: 96181881}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &552078599
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9967,6 +10161,142 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8657891735347098919, guid: 1681c259e54dcd7499a8850718432815, type: 3}
   m_PrefabInstance: {fileID: 1358180617}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &582177644
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 582177645}
+  - component: {fileID: 582177646}
+  - component: {fileID: 582177647}
+  m_Layer: 5
+  m_Name: Text (TMP)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &582177645
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 582177644}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 546229628}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 0, y: -100}
+  m_SizeDelta: {x: 1000, y: 100}
+  m_Pivot: {x: 0.5, y: 0}
+--- !u!222 &582177646
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 582177644}
+  m_CullTransparentMesh: 1
+--- !u!114 &582177647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 582177644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: 
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 36
+  m_fontSizeBase: 36
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 1
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 256
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_TextWrappingMode: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 0
+  m_ActiveFontFeatures: 6e72656b
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_EmojiFallbackSupport: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1001 &599351939
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14245,6 +14575,7 @@ MonoBehaviour:
   redMaterial: {fileID: 2100000, guid: 0eb08ca4a5ba34e1b970c3b993dd11c1, type: 2}
   zoneRenderer: {fileID: 860822892}
   statusManager: {fileID: 1926261513}
+  speechManager: {fileID: 171242939}
 --- !u!23 &860822892
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -17038,12 +17369,12 @@ RectTransform:
   m_Children:
   - {fileID: 1934040016}
   - {fileID: 1434734067}
-  m_Father: {fileID: 96181881}
+  m_Father: {fileID: 278391536}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -30, y: -30}
+  m_SizeDelta: {x: 729, y: 353}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &930064582
 MonoBehaviour:
@@ -17226,6 +17557,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 6b081aec0dae00843a0297249e33e6ee, type: 3}
       insertIndex: -1
       addedObject: {fileID: 171242936}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 6b081aec0dae00843a0297249e33e6ee, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 171242939}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 6b081aec0dae00843a0297249e33e6ee, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 171242938}
   m_SourcePrefab: {fileID: 100100000, guid: 6b081aec0dae00843a0297249e33e6ee, type: 3}
 --- !u!1001 &978924203
 PrefabInstance:
@@ -24922,7 +25259,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 96181883}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: GuideManager, Assembly-CSharp
         m_MethodName: NextSentence
         m_Mode: 1

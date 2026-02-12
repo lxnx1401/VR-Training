@@ -5,7 +5,6 @@ public class SafeZoneController : MonoBehaviour
     [Header("Detection Settings")]
     public Transform playerTransform; 
     public float detectionRadius = 2.0f; 
-    // YENİ: Dedektörün merkezini yerden ne kadar yukarı kaldıralım?
     public float detectionHeightOffset = 0.5f; 
     public LayerMask obstacleLayer;
 
@@ -17,8 +16,12 @@ public class SafeZoneController : MonoBehaviour
     [Header("Visualizer")]
     public MeshRenderer zoneRenderer;
 
-    [Header("Robot UI")]
+    [Header("Robot UI & Audio")]
     public RobotStatusManager statusManager;
+    // YENİ: Konuşma sistemine erişim
+    public RobotSpeechManager speechManager; 
+
+    private bool task3Completed = false;
 
     void Update()
     {
@@ -27,7 +30,7 @@ public class SafeZoneController : MonoBehaviour
 
     void UpdateSafetyLogic()
     {
-        // 1. ENGEL KONTROLÜ (Merkez noktası artık yukarıda)
+        // 1. ENGEL KONTROLÜ
         Vector3 detectionCenter = transform.position + Vector3.up * detectionHeightOffset;
         Collider[] obstacles = Physics.OverlapSphere(detectionCenter, detectionRadius, obstacleLayer);
         
@@ -35,7 +38,6 @@ public class SafeZoneController : MonoBehaviour
 
         foreach (var col in obstacles)
         {
-            // Kendimizi, Player'ı veya zemini algılamamak için ek güvenlik
             if (!col.CompareTag("Player") && col.gameObject != this.gameObject)
             {
                 dangerFound = true;
@@ -43,7 +45,7 @@ public class SafeZoneController : MonoBehaviour
             }
         }
 
-        // 2. OYUNCU MESAFESİ (Yerdeki yatay mesafe kontrolü aynı kalıyor)
+        // 2. OYUNCU MESAFESİ
         Vector3 zonePos = transform.position;
         Vector3 playerPos = playerTransform.position;
         zonePos.y = 0;
@@ -52,7 +54,7 @@ public class SafeZoneController : MonoBehaviour
         float horizontalDistance = Vector3.Distance(zonePos, playerPos);
         bool playerInside = horizontalDistance <= detectionRadius;
 
-        // 3. RENK UYGULAMA VE YAZI GÜNCELLEME
+        // 3. RENK UYGULAMA VE GÖREV KONTROLÜ
         if (dangerFound)
         {
             zoneRenderer.material = redMaterial;
@@ -63,14 +65,23 @@ public class SafeZoneController : MonoBehaviour
             zoneRenderer.material = yellowMaterial;
             if(statusManager != null) statusManager.UpdateStatus("Yellow");
         }
-        else
+        else // BURASI YEŞİL DURUMU
         {
             zoneRenderer.material = greenMaterial;
             if(statusManager != null) statusManager.UpdateStatus("Green");
+
+            // --- ETKİLEŞİMLİ EĞİTİM MANTIĞI ---
+            // Eğer 3. cümledeysek (Robotu Taşı Görevi) ve alan yeşilse:
+            if (speechManager != null && speechManager.GetCurrentIndex() == 2 && !task3Completed)
+            {
+                // Robotun "Waiting" modunu kapat ve bir sonraki cümleye (Great!) geç
+                task3Completed = true; // Bu görevin bir kez tetiklenmesi için
+                speechManager.isWaitingForTask = false; 
+                speechManager.PlayNextLine(); 
+            }
         }
     }
 
-    // Gizmos kısmını da güncelledim ki Inspector'da neresi taranıyor gör
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
