@@ -1014,7 +1014,7 @@ MonoBehaviour:
   toggleMenuAction: {fileID: -8069514856583376848, guid: 0be0028c24f2a4c14a96b6aa39055933, type: 3}
   dialogueAudio: {fileID: 171242938}
   mainMenuSceneName: Menu
-  skipSceneName: Module02
+  skipSceneName: Modul2
 --- !u!1 &97830564
 GameObject:
   m_ObjectHideFlags: 0
@@ -2768,6 +2768,7 @@ MonoBehaviour:
   skipAlsoStopsWalk: 1
   nextInterruptsCurrentLine: 1
   nextAlsoAdvancesAfterInterrupt: 1
+  nextSceneName: Modul2
 --- !u!4 &171242940 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 6b081aec0dae00843a0297249e33e6ee, type: 3}
