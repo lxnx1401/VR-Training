@@ -18,6 +18,12 @@ EditorBuildSettings:
     path: Assets/Scenes/Modul2.unity
     guid: de8fd504de5736e46a3584a4346ef6d5
   - enabled: 1
+    path: Assets/Scenes/Modul3.unity
+    guid: bf39c05f947e0ba41830f3666b28ac2a
+  - enabled: 1
+    path: Assets/Scenes/Modul4.unity
+    guid: f33f746506160d84b94af8b11f1e915b
+  - enabled: 1
     path: Assets/Scenes/Challenge.unity
     guid: 7326e6a7643bb714f896980059603756
   m_configObjects:

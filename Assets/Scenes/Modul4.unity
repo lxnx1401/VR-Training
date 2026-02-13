@@ -2746,27 +2746,27 @@ MonoBehaviour:
     subtitle: "Task 1: Grab the robot\u2019s left arm to lift it up. This gives you
       access to the battery slot."
     talkTrigger: expl
-    waitForTaskUnlock: 1
+    waitForTaskUnlock: 0
   - audioClip: {fileID: 8300000, guid: 8b14ddcbdb6c50748bd4d28df973d08d, type: 3}
     subtitle: Good. Now grab the battery and bring it to the slot. The battery is
       lying on the small table back there.
     talkTrigger: walk
-    waitForTaskUnlock: 1
+    waitForTaskUnlock: 0
   - audioClip: {fileID: 8300000, guid: a0dc0fd0111be1b4aae5f3daa3032ef3, type: 3}
     subtitle: "Insert the battery into the slot until it locks in. If it snaps into
       place, it\u2019s seated correctly."
     talkTrigger: expl
-    waitForTaskUnlock: 1
+    waitForTaskUnlock: 0
   - audioClip: {fileID: 8300000, guid: f877657117c2ba6429fc004c1d54d4f3, type: 3}
     subtitle: 'Now press the power button once to switch the battery on. If the LEDs
       are green, the battery is ready. '
     talkTrigger: walk
-    waitForTaskUnlock: 1
+    waitForTaskUnlock: 0
   - audioClip: {fileID: 8300000, guid: 748617fccf25b494ea5acc5b25fca9eb, type: 3}
     subtitle: "Now grab the left arm again to lower it back down \u2014 that\u2019s
       your \u2018ready to start\u2019 position."
     talkTrigger: expl
-    waitForTaskUnlock: 1
+    waitForTaskUnlock: 0
   - audioClip: {fileID: 8300000, guid: 987c1d3470c0a2242a67dd5cd7c29971, type: 3}
     subtitle: "Perfect \u2014 the battery is on and the robot is in the ready position.
       You\u2019ve completed Module 2."
@@ -2792,7 +2792,7 @@ MonoBehaviour:
   skipAlsoStopsWalk: 1
   nextInterruptsCurrentLine: 1
   nextAlsoAdvancesAfterInterrupt: 1
-  nextSceneName: Modul3
+  nextSceneName: 
 --- !u!4 &171242940 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 6b081aec0dae00843a0297249e33e6ee, type: 3}
@@ -10534,65 +10534,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!1 &592692260
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 592692262}
-  - component: {fileID: 592692261}
-  m_Layer: 0
-  m_Name: modul2manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &592692261
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 592692260}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e03afa3d036bf4843b2177b58252fb43, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  speechManager: {fileID: 171242939}
-  task1ArmUpIndex: 4
-  task2BatteryGrabIndex: 5
-  task3BatteryInsertIndex: 6
-  task4PowerPressIndex: 7
-  task5ArmDownIndex: 8
-  leftShoulderInteractable: {fileID: 1120656706}
-  batteryGrab: {fileID: 632873124}
-  batterySocket: {fileID: 1358180623}
-  socketState: {fileID: 0}
-  batteryAnimator: {fileID: 735488968}
-  powerBoolName: isklicked
-  powerOnWhenBoolTrue: 1
-  armIsUp: 0
-  armIsDown: 1
---- !u!4 &592692262
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 592692260}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.19376, y: -2.1244, z: -4.13541}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &599351939
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -37869,4 +37810,3 @@ SceneRoots:
   - {fileID: 860822894}
   - {fileID: 96181881}
   - {fileID: 335824971}
-  - {fileID: 592692262}
