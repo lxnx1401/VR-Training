@@ -2721,17 +2721,53 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   dialogueLines:
-  - audioClip: {fileID: 8300000, guid: f926d84e45a88e7c79f51772c62a4427, type: 3}
-    subtitle: Welcome to the Unitree G1 Safety Training. I am your assistant. Before
-      we start the robot, we must ensure a safe environment. Typical risks include
-      collisions, the robot falling, or unexpected movements.
+  - audioClip: {fileID: 8300000, guid: f3984424c0a65c946bda7c05df43b8b6, type: 3}
+    subtitle: "Welcome to How to Robot! You\u2019re about to do an at-home VR safety
+      training, so you can learn how to work safely with a humanoid robot."
+    talkTrigger: talk
+    waitForTaskUnlock: 0
+  - audioClip: {fileID: 8300000, guid: 6cd1529f60c175b418e1e8d4c281cacb, type: 3}
+    subtitle: "I\u2019m Ruby, your trainer, and I\u2019ll guide you step by step
+      through the training."
+    talkTrigger: wave
+    waitForTaskUnlock: 0
+  - audioClip: {fileID: 8300000, guid: ef7b9c4cfdb4cd846aeb1c6a9f721e59, type: 3}
+    subtitle: "The flow is always the same: first a short theory section \u2014 then
+      you\u2019ll get practical tasks."
     talkTrigger: argu
     waitForTaskUnlock: 0
-  - audioClip: {fileID: 8300000, guid: cc5c6aa69c196d1839b1e9e49961647e, type: 3}
-    subtitle: To prevent accidents, the robot must be in a safe starting position.
-      Ensure the floor is clear and there are no objects or people within 2 meters
-      of the robot.
-    talkTrigger: walk
+  - audioClip: {fileID: 8300000, guid: e80cfb703ec006045a8ae14f99ba7bae, type: 3}
+    subtitle: "I\u2019ll give you tasks using the Unitree G1 robot. Once a task is
+      active, I\u2019ll wait until you complete it."
+    talkTrigger: talk2
+    waitForTaskUnlock: 0
+  - audioClip: {fileID: 8300000, guid: a16efa58be3cd4045a9d4b082851b40a, type: 3}
+    subtitle: "When you do something correctly, you\u2019ll get instant feedback.
+      If you\u2019re not sure what to do, you can click Hint."
+    talkTrigger: expl
+    waitForTaskUnlock: 0
+  - audioClip: {fileID: 8300000, guid: 467031e42246ab449a038a24bdb0d94e, type: 3}
+    subtitle: You can pause the training at any time. Press B on your VR controller
+      to do that.
+    talkTrigger: talk
+    waitForTaskUnlock: 0
+  - audioClip: {fileID: 8300000, guid: 26d8419b4919724429c2426db63d7109, type: 3}
+    subtitle: 'Task: Press B now, open the pause menu, and close it again with B.'
+    talkTrigger: argu
+    waitForTaskUnlock: 1
+  - audioClip: {fileID: 8300000, guid: b2e19f22a0055ef40bb739ab7f736e6a, type: 3}
+    subtitle: "Great job! That\u2019s how you can pause anytime, skip to the next
+      module, repeat the module, or return to the main menu."
+    talkTrigger: happy
+    waitForTaskUnlock: 0
+  - audioClip: {fileID: 8300000, guid: 368fc577a5115c94c8d69d35d7e567e1, type: 3}
+    subtitle: "After you finish the training, you can start a challenge right away
+      and show what you\u2019ve learned."
+    talkTrigger: talk
+    waitForTaskUnlock: 0
+  - audioClip: {fileID: 8300000, guid: 36ad984ef0704644d81b71d486b5e06a, type: 3}
+    subtitle: Good luck!
+    talkTrigger: argu
     waitForTaskUnlock: 0
   isWaitingForTask: 0
   subtitleText: {fileID: 582177647}
@@ -9071,8 +9107,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294869421
-  m_fontColor: {r: 0.68018395, g: 0.50703096, b: 0.995283, a: 1}
+    rgba: 4278190335
+  m_fontColor: {r: 1, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -28140,6 +28176,54 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!1 &1540185551
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1540185553}
+  - component: {fileID: 1540185552}
+  m_Layer: 0
+  m_Name: pausetaskmanager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1540185552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1540185551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73b767bf702b18b4599e3f5e6d1401c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  speechManager: {fileID: 171242939}
+  pauseMenuRoot: {fileID: 278391535}
+  pauseToggleAction: {fileID: -8069514856583376848, guid: 0be0028c24f2a4c14a96b6aa39055933, type: 3}
+  requireOpenAndClose: 1
+--- !u!4 &1540185553
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1540185551}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.39795, y: -2.39194, z: 1.001}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1549997960
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -37640,3 +37724,4 @@ SceneRoots:
   - {fileID: 1358180617}
   - {fileID: 96181881}
   - {fileID: 335824971}
+  - {fileID: 1540185553}

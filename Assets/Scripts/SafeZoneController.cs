@@ -67,7 +67,7 @@ public class SafeZoneController : MonoBehaviour
 
             // GÖREV 3 TAMAMLANIR: Robotu güvenli yere bıraktın ama hala dibindesin.
             // (3. Cümle: Index 2 - "Robotu güvenli yere koy")
-            if (speechManager != null && speechManager.GetCurrentIndex() == 2 && 
+            if (speechManager != null && speechManager.GetCurrentIndex() == 3 && 
                 speechManager.isWaitingForTask && !task3Completed)
             {
                 task3Completed = true; 
@@ -83,7 +83,7 @@ public class SafeZoneController : MonoBehaviour
 
             // GÖREV 4 TAMAMLANIR: Oyuncu güvenli mesafeye çekildi.
             // (4. Cümle: Index 3 - "SafeSpot'a git ve aktif et")
-            if (speechManager != null && speechManager.GetCurrentIndex() == 3 && 
+            if (speechManager != null && speechManager.GetCurrentIndex() == 5 && 
                 speechManager.isWaitingForTask && !task4Completed)
             {
                 task4Completed = true; 
