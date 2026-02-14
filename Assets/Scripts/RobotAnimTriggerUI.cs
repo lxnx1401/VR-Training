@@ -1,26 +1,26 @@
+ï»¿// RobotAnimTriggerUI.cs
 using UnityEngine;
 
 public class RobotAnimTriggerUI : MonoBehaviour
 {
     [Header("Animator Reference")]
-    [SerializeField] private Animator animator; // Animator am Roboter (RobotModel)
+    [SerializeField] private Animator animator;
 
-    [Header("Trigger Names (müssen exakt so im Animator existieren)")]
+    [Header("Trigger Names (must exist in Animator)")]
     [SerializeField] private string waveTrigger = "Wave";
     [SerializeField] private string kickTrigger = "Kick";
     [SerializeField] private string danceTrigger = "Dance";
 
     private void Awake()
     {
-        // Falls du es nicht im Inspector ziehst, versucht er es automatisch zu finden
         if (!animator)
             animator = GetComponentInChildren<Animator>();
 
         if (!animator)
-            Debug.LogError("[RobotAnimTriggerUI] Kein Animator gefunden/zugewiesen!");
+            Debug.LogError("[RobotAnimTriggerUI] No Animator found/assigned!");
     }
 
-    // Diese Methoden kannst du direkt im Button OnClick auswählen
+    // These methods can be assigned in Button OnClick
     public void PlayWave()
     {
         if (!animator) return;

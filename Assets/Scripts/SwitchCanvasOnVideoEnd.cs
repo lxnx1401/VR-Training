@@ -1,3 +1,4 @@
+// SwitchCanvasOnVideoEnd.cs
 using UnityEngine;
 using UnityEngine.Video;
 
