@@ -8,14 +8,18 @@ public class InSocketClickSetsBoolTrue_NoGrab : MonoBehaviour
     [SerializeField] private BatterySocketState socketState;
 
     [Header("Input für PC-Test (Left Mouse)")]
-    [SerializeField] private InputActionReference clickAction; // <Mouse>/leftButton
+    [SerializeField] private InputActionReference clickAction; 
 
     [Header("Animator Target")]
     [SerializeField] private Animator targetAnimator;
     [SerializeField] private string boolName = "Pressed";
 
-    [Header("Grab Interactable (muss AN bleiben für Socket!)")]
+    [Header("Grab Interactable")]
     [SerializeField] private UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable grab;
+
+    // --- CHALLENGE MODU EKLEMESİ ---
+    private bool batteryTaskCompleted = false;
+    // -------------------------------
 
     private void Awake()
     {
@@ -24,7 +28,6 @@ public class InSocketClickSetsBoolTrue_NoGrab : MonoBehaviour
 
     private void OnEnable()
     {
-        // Wichtig: Grab bleibt enabled, sonst kann Socket nicht selecten!
         if (grab != null)
             grab.selectEntered.AddListener(OnGrabSelectEntered);
 
@@ -44,17 +47,29 @@ public class InSocketClickSetsBoolTrue_NoGrab : MonoBehaviour
             clickAction.action.performed -= OnClick;
     }
 
-    // Wird aufgerufen, wenn irgendwer die Batterie selektiert (Socket ODER Hand)
     private void OnGrabSelectEntered(SelectEnterEventArgs args)
     {
+        // --- AGA BURASI GÖREVİ TETİKLEDİĞİMİZ YER ---
+        // Eğer tutan şey bir Socket değilse (yani bir el/interactor ise) ve görev henüz bitmediyse
+        if (!(args.interactorObject is UnityEngine.XR.Interaction.Toolkit.Interactors.XRSocketInteractor))
+        {
+            if (!batteryTaskCompleted)
+            {
+                batteryTaskCompleted = true;
+                if (TaskUIManager.instance != null)
+                {
+                    TaskUIManager.instance.CompleteTask("LocateBattery");
+                }
+            }
+        }
+        // --------------------------------------------
+
         if (socketState == null || !socketState.IsBatteryInSocket)
             return;
 
-        // Wenn der Socket selektiert (beim Einsetzen): erlauben!
         if (args.interactorObject is UnityEngine.XR.Interaction.Toolkit.Interactors.XRSocketInteractor)
             return;
 
-        // Wenn die Hand/Interactor selektiert obwohl Batterie im Socket ist: sofort abbrechen
         if (grab.interactionManager != null)
             grab.interactionManager.SelectExit(args.interactorObject, grab);
     }

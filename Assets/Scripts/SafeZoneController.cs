@@ -8,6 +8,10 @@ public class SafeZoneController : MonoBehaviour
     public float detectionHeightOffset = 0.5f; 
     public LayerMask obstacleLayer;
 
+    [Header("Robot References")]
+    public Transform offRobot;
+    public Transform onRobot;
+
     [Header("Color Materials")]
     public Material greenMaterial;
     public Material yellowMaterial;
@@ -17,78 +21,97 @@ public class SafeZoneController : MonoBehaviour
     public MeshRenderer zoneRenderer;
 
     [Header("Robot UI & Audio")]
-    public RobotStatusManager statusManager;
+    // --- AGA BURASI ÖNEMLİ: Warning panellerini buraya sürükle ---
+    public RobotStatusManager offStatusManager; 
+    public RobotStatusManager onStatusManager;
     public RobotSpeechManager speechManager; 
 
-    // Görevlerin sadece birer kez tetiklenmesi için bayraklar
     private bool task3Completed = false;
     private bool task4Completed = false;
+    private bool challengePositionTaskDone = false;
+    private float activationDelay = 3.0f; 
+    private float timer = 0f;
 
     void Update()
     {
+        timer += Time.deltaTime;
         UpdateSafetyLogic();
+    }
+
+    // Aktif olan Status Manager'ı bulup ona mesaj gönderen yardımcı fonksiyon
+    private void SendStatusMessage(string message)
+    {
+        if (offRobot != null && offRobot.gameObject.activeInHierarchy && offStatusManager != null)
+            offStatusManager.UpdateStatus(message);
+        else if (onRobot != null && onRobot.gameObject.activeInHierarchy && onStatusManager != null)
+            onStatusManager.UpdateStatus(message);
     }
 
     void UpdateSafetyLogic()
     {
-        // 1. ENGEL KONTROLÜ
         Vector3 detectionCenter = transform.position + Vector3.up * detectionHeightOffset;
         Collider[] obstacles = Physics.OverlapSphere(detectionCenter, detectionRadius, obstacleLayer);
         
         bool dangerFound = false;
         foreach (var col in obstacles)
         {
-            if (!col.CompareTag("Player") && col.gameObject != this.gameObject)
+            if (col.isTrigger) continue;
+
+            bool isPlayer = col.CompareTag("Player");
+            bool isRobotPart = (offRobot != null && col.transform.IsChildOf(offRobot)) || 
+                               (onRobot != null && col.transform.IsChildOf(onRobot));
+
+            if (!isPlayer && !isRobotPart && col.gameObject != this.gameObject)
             {
                 dangerFound = true;
                 break;
             }
         }
 
-        // 2. OYUNCU MESAFESİ (Yerdeki yatay mesafe)
         Vector3 zonePos = transform.position;
         Vector3 playerPos = playerTransform.position;
         zonePos.y = 0; playerPos.y = 0;
         float horizontalDistance = Vector3.Distance(zonePos, playerPos);
         bool playerInside = horizontalDistance <= detectionRadius;
 
-        // 3. RENK UYGULAMA VE ARKADAŞININ İSTEDİĞİ GÜVENLİK MANTIĞI
         if (dangerFound)
         {
-            // KIRMIZI: Alanda yabancı madde var (Engel)!
             zoneRenderer.material = redMaterial;
-            if(statusManager != null) statusManager.UpdateStatus("Red");
+            SendStatusMessage("Red"); // Aktif robota mesajı gönderir
         }
         else if (playerInside) 
         {
-            // SARI: Engel yok ama OYUNCU robotun dibinde (Uzaklaşması lazım).
             zoneRenderer.material = yellowMaterial;
-            if(statusManager != null) statusManager.UpdateStatus("Yellow");
+            SendStatusMessage("Yellow");
 
-            // GÖREV 3 TAMAMLANIR: Robotu güvenli yere bıraktın ama hala dibindesin.
-            // (3. Cümle: Index 2 - "Robotu güvenli yere koy")
             if (speechManager != null && speechManager.GetCurrentIndex() == 3 && 
                 speechManager.isWaitingForTask && !task3Completed)
             {
                 task3Completed = true; 
                 speechManager.isWaitingForTask = false; 
-                speechManager.PlayNextLine(); // Robot: "Şimdi SafeSpot'a git" der.
+                speechManager.PlayNextLine(); 
             }
         }
         else 
         {
-            // YEŞİL: Engel yok VE oyuncu güvenli mesafede (Dışarı çıktı).
             zoneRenderer.material = greenMaterial;
-            if(statusManager != null) statusManager.UpdateStatus("Green");
+            SendStatusMessage("Green");
 
-            // GÖREV 4 TAMAMLANIR: Oyuncu güvenli mesafeye çekildi.
-            // (4. Cümle: Index 3 - "SafeSpot'a git ve aktif et")
             if (speechManager != null && speechManager.GetCurrentIndex() == 5 && 
                 speechManager.isWaitingForTask && !task4Completed)
             {
                 task4Completed = true; 
                 speechManager.isWaitingForTask = false; 
-                speechManager.PlayNextLine(); // Robot: "Eğitim bitti, sistem aktif!"
+                speechManager.PlayNextLine(); 
+            }
+
+            if (timer > activationDelay && !challengePositionTaskDone)
+            {
+                challengePositionTaskDone = true;
+                if (TaskUIManager.instance != null)
+                {
+                    TaskUIManager.instance.CompleteTask("Position");
+                }
             }
         }
     }

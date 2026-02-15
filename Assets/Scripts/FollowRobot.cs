@@ -3,22 +3,29 @@ using UnityEngine;
 public class FollowRobot : MonoBehaviour
 {
     [Header("Target Settings")]
-    public Transform robotTransform; // Robotun ana objesini buraya at
+    public Transform offRobot; 
+    public Transform onRobot;
     
+    private Transform activeTarget; // Dinamik olarak belirlenecek
+
     [Header("Position Settings")]
-    public float fixedYPosition = 0.02f; // Yere çok yakın olması için (0.01 - 0.05 arası iyidir)
+    public float fixedYPosition = 0.02f; 
 
     [Header("Rotation Settings")]
-    public Vector3 rotationOffset = new Vector3(90f, 0f, 0f); // Silindiri yatırmak için genelde X:90 gerekir
+    public Vector3 rotationOffset = new Vector3(90f, 0f, 0f);
 
     void LateUpdate()
     {
-        if (robotTransform != null)
+        // Aktif robotu bulalım
+        if (offRobot != null && offRobot.gameObject.activeInHierarchy)
+            activeTarget = offRobot;
+        else if (onRobot != null && onRobot.gameObject.activeInHierarchy)
+            activeTarget = onRobot;
+
+        // Takip et
+        if (activeTarget != null)
         {
-            // 1. POZİSYON: Robotun X ve Z'sini al, Y'yi bizim belirlediğimiz yer yüksekliğine sabitle
-            transform.position = new Vector3(robotTransform.position.x, fixedYPosition, robotTransform.position.z);
-            
-            // 2. ROTASYON: Robot ne yaparsa yapsın silindir bizim verdiğimiz açıda kalsın
+            transform.position = new Vector3(activeTarget.position.x, fixedYPosition, activeTarget.position.z);
             transform.rotation = Quaternion.Euler(rotationOffset);
         }
     }
