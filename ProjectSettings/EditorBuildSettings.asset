@@ -22,7 +22,10 @@ EditorBuildSettings:
     guid: bf39c05f947e0ba41830f3666b28ac2a
   - enabled: 1
     path: Assets/Scenes/Modul4.unity
-    guid: f33f746506160d84b94af8b11f1e915b
+    guid: 8d204f91f9f6c214585f7374b92d81b3
+  - enabled: 1
+    path: Assets/Scenes/Modul5.unity
+    guid: f83eb606150f3ce4fb955423d60b9e67
   - enabled: 1
     path: Assets/Scenes/Challenge.unity
     guid: 7326e6a7643bb714f896980059603756
