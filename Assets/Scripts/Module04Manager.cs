@@ -9,15 +9,16 @@ public class Module04Manager : MonoBehaviour
     [Header("Controller Canvas Root (opened via X)")]
     [SerializeField] private GameObject controllerCanvasRoot;
 
-    [Header("Final Task: Wait for Menu (must become active)")]
-    [SerializeField] private GameObject finalMenuObject;
+    [Header("SafeZone Controller (partner script)")]
+    [SerializeField] private SafeZoneController safeZoneController;
 
-    [Header("SafeZone Detection (Green/Yellow/Red)")]
-    [SerializeField] private Transform playerTransform;
-    [SerializeField] private float detectionRadius = 2.0f;
-    [SerializeField] private float detectionHeightOffset = 0.5f;
-    [SerializeField] private LayerMask obstacleLayer;
-    [SerializeField] private Transform zoneCenter;
+    private RobotSpeechManager cachedSafeZoneSpeech; // restore later (optional)
+
+    [Header("SafeZone Visual Source (same as SafeZoneController)")]
+    [SerializeField] private MeshRenderer zoneRenderer;
+    [SerializeField] private Material greenMaterial;
+    [SerializeField] private Material yellowMaterial;
+    [SerializeField] private Material redMaterial;
 
     private bool zoneIsGreen = true;
 
@@ -50,9 +51,28 @@ public class Module04Manager : MonoBehaviour
     private Coroutine controlTimerRoutine;
     private int lastIndex = -999;
 
+    private void Awake()
+    {
+        // IMPORTANT: prevent partner SafeZoneController from auto-advancing lines in Module 4
+        if (safeZoneController != null)
+        {
+            cachedSafeZoneSpeech = safeZoneController.speechManager;
+            safeZoneController.speechManager = null;
+        }
+    }
+
+    private void OnDisable()
+    {
+        // Optional restore if this object is reused later
+        if (safeZoneController != null)
+        {
+            safeZoneController.speechManager = cachedSafeZoneSpeech;
+        }
+    }
+
     private void Update()
     {
-        UpdateZoneState();
+        UpdateZoneFromRenderer();
 
         if (speechManager == null) return;
 
@@ -109,37 +129,40 @@ public class Module04Manager : MonoBehaviour
         }
     }
 
-    private void UpdateZoneState()
+    private void UpdateZoneFromRenderer()
     {
-        if (playerTransform == null) return;
-
-        Transform c = zoneCenter != null ? zoneCenter : transform;
-
-        Vector3 detectionCenter = c.position + Vector3.up * detectionHeightOffset;
-        Collider[] obstacles = Physics.OverlapSphere(detectionCenter, detectionRadius, obstacleLayer);
-
-        bool dangerFound = false;
-        for (int i = 0; i < obstacles.Length; i++)
+        if (zoneRenderer == null)
         {
-            var col = obstacles[i];
-            if (!col.CompareTag("Player") && col.gameObject != c.gameObject)
-            {
-                dangerFound = true;
-                break;
-            }
+            zoneIsGreen = true;
+            return;
         }
 
-        Vector3 zonePos = c.position;
-        Vector3 playerPos = playerTransform.position;
-        zonePos.y = 0f;
-        playerPos.y = 0f;
+        Material m = zoneRenderer.material;
+        if (m == null)
+        {
+            zoneIsGreen = true;
+            return;
+        }
 
-        float horizontalDistance = Vector3.Distance(zonePos, playerPos);
-        bool playerInside = horizontalDistance <= detectionRadius;
+        if (greenMaterial != null && (m == greenMaterial || m.name.StartsWith(greenMaterial.name)))
+        {
+            zoneIsGreen = true;
+            return;
+        }
 
-        if (dangerFound) zoneIsGreen = false;
-        else if (playerInside) zoneIsGreen = false;
-        else zoneIsGreen = true;
+        if (yellowMaterial != null && (m == yellowMaterial || m.name.StartsWith(yellowMaterial.name)))
+        {
+            zoneIsGreen = false;
+            return;
+        }
+
+        if (redMaterial != null && (m == redMaterial || m.name.StartsWith(redMaterial.name)))
+        {
+            zoneIsGreen = false;
+            return;
+        }
+
+        zoneIsGreen = true;
     }
 
     private void OnLineChanged(int newIdx)
@@ -191,21 +214,15 @@ public class Module04Manager : MonoBehaviour
         }
 
         controlTimerRoutine = null;
-
-        // Completed -> hide timer text
         ClearTimerUI();
 
-        // IMPORTANT: Do NOT trigger idle here (can interrupt next speech line).
-        // Only stop talking bool so the guide doesn't get stuck in old animations.
         StopGuideTalkingBoolOnly();
-
         Advance(idxHold20Seconds);
     }
 
     private void UpdateTimerUI(float current, float total)
     {
         if (timerText == null) return;
-
         float left = Mathf.Max(0f, total - current);
         timerText.text = timerPrefix + left.ToString("0") + "s";
     }

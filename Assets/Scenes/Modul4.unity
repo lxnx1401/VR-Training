@@ -9851,14 +9851,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Module04Manager
   speechManager: {fileID: 171242939}
   controllerCanvasRoot: {fileID: 686291250}
-  finalMenuObject: {fileID: 1425330691}
-  playerTransform: {fileID: 1670166877}
-  detectionRadius: 1.5
-  detectionHeightOffset: 0.5
-  obstacleLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  zoneCenter: {fileID: 914963917}
+  safeZoneController: {fileID: 860822890}
+  zoneRenderer: {fileID: 860822892}
+  greenMaterial: {fileID: 2100000, guid: e1fa67381f7055a16ab4ffed7a4c3405, type: 2}
+  yellowMaterial: {fileID: 2100000, guid: 35cee75d56df83b758df2d779d237101, type: 2}
+  redMaterial: {fileID: 2100000, guid: 0eb08ca4a5ba34e1b970c3b993dd11c1, type: 2}
   forwardControlSeconds: 20
   timerText: {fileID: 47241296}
   timerPrefix: 'Safe control: '
@@ -30105,11 +30102,6 @@ Transform:
   - {fileID: 247538320}
   m_Father: {fileID: 647656657}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &1670166877 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1717954561962503726, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
-  m_PrefabInstance: {fileID: 891517873}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1673611082
 PrefabInstance:
   m_ObjectHideFlags: 0
