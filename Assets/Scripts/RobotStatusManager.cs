@@ -28,11 +28,11 @@ public class RobotStatusManager : MonoBehaviour
         switch (state)
         {
             case "Red":
-                statusText.text = "DANGER: OBSTACLE!";
+                statusText.text = "DANGER: OBSTACLES!";
                 statusText.color = Color.red;
                 break;
             case "Yellow":
-                statusText.text = "WARNING: CLEAR AREA";
+                statusText.text = "WARNING: You're too close!";
                 statusText.color = Color.yellow;
                 break;
             case "Green":

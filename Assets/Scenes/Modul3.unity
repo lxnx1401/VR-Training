@@ -9677,7 +9677,7 @@ MonoBehaviour:
   finalMenuObject: {fileID: 1425330691}
   robotAnimator: {fileID: 914963911}
   zapelBoolName: zapel
-  delayAfterStart: 4
+  delayAfterStart: 3
   taskOpenXIndex: 3
   taskConfirmIndex: 4
   taskStartIndex: 5
@@ -9686,6 +9686,7 @@ MonoBehaviour:
   taskRestartIndex: 8
   taskWaitMenuIndex: 9
   idleOnlyOnStartAndObserve: 1
+  zapelOnlyOncePerModule: 1
 --- !u!4 &532061556
 Transform:
   m_ObjectHideFlags: 0
@@ -23486,7 +23487,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0

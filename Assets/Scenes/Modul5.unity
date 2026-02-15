@@ -9749,14 +9749,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Module04Manager
   speechManager: {fileID: 171242939}
   controllerCanvasRoot: {fileID: 686291250}
-  finalMenuObject: {fileID: 1425330691}
-  playerTransform: {fileID: 1670166877}
-  detectionRadius: 1.5
-  detectionHeightOffset: 0.5
-  obstacleLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  zoneCenter: {fileID: 914963917}
+  safeZoneController: {fileID: 0}
+  zoneRenderer: {fileID: 0}
+  greenMaterial: {fileID: 0}
+  yellowMaterial: {fileID: 0}
+  redMaterial: {fileID: 0}
   forwardControlSeconds: 20
   timerText: {fileID: 47241296}
   timerPrefix: 'Safe control: '
@@ -23613,7 +23610,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 76}
   m_SizeDelta: {x: 800, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1353036843
@@ -23670,7 +23667,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -30105,11 +30102,6 @@ Transform:
   - {fileID: 247538320}
   m_Father: {fileID: 647656657}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &1670166877 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1717954561962503726, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
-  m_PrefabInstance: {fileID: 891517873}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1673611082
 PrefabInstance:
   m_ObjectHideFlags: 0

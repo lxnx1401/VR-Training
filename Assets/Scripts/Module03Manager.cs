@@ -32,10 +32,18 @@ public class Module03Manager : MonoBehaviour
     [Tooltip("If true, idle will only be triggered after Start/Observe lines. Confirm/E-Stop/Restart will NOT trigger idle.")]
     [SerializeField] private bool idleOnlyOnStartAndObserve = true;
 
+    // NEW: zapel should happen only once in the whole module scenario
+    [Header("Zapel Scenario")]
+    [Tooltip("If true, the zapel fault will be scheduled only once. After Restart/Shutdown it will NOT happen again.")]
+    [SerializeField] private bool zapelOnlyOncePerModule = true;
+
     private bool confirmed;
     private bool started;
     private bool emergencyPressed;
     private bool restartPressed;
+
+    // NEW: tracks if the zapel scenario has already been used once
+    private bool zapelScenarioUsed = false;
 
     private Coroutine zapelRoutine;
     private Coroutine idleAfterAudioRoutine;
@@ -101,7 +109,6 @@ public class Module03Manager : MonoBehaviour
         speechManager.UnlockTask();
         speechManager.PlayNextLine();
 
-        // Only do idle reset after Start/Observe tasks (not confirm/e-stop/restart)
         if (idleOnlyOnStartAndObserve)
         {
             if (oldIdx == taskStartIndex || oldIdx == taskObserveIndex)
@@ -111,7 +118,6 @@ public class Module03Manager : MonoBehaviour
         }
         else
         {
-            // If you ever want it globally again
             StartIdleAfterAudio();
         }
     }
@@ -136,8 +142,23 @@ public class Module03Manager : MonoBehaviour
     {
         started = true;
 
-        if (zapelRoutine != null) StopCoroutine(zapelRoutine);
-        zapelRoutine = StartCoroutine(SetZapelTrueAfterDelay());
+        // Schedule zapel only ONCE in this module (first boot run)
+        bool canScheduleZapel = true;
+
+        if (zapelOnlyOncePerModule && zapelScenarioUsed)
+            canScheduleZapel = false;
+
+        // Also: if already emergency was pressed, don't schedule (safety)
+        if (emergencyPressed)
+            canScheduleZapel = false;
+
+        if (canScheduleZapel)
+        {
+            zapelScenarioUsed = true;
+
+            if (zapelRoutine != null) StopCoroutine(zapelRoutine);
+            zapelRoutine = StartCoroutine(SetZapelTrueAfterDelay());
+        }
 
         TryAdvanceNow(taskStartIndex);
         TryAdvanceNow(taskObserveIndex);
@@ -167,6 +188,9 @@ public class Module03Manager : MonoBehaviour
         if (zapelRoutine != null) StopCoroutine(zapelRoutine);
         zapelRoutine = null;
 
+        // IMPORTANT: we do NOT reset zapelScenarioUsed here
+        // because we want zapel to happen only once for the module scenario
+
         TryAdvanceNow(taskRestartIndex);
     }
 
@@ -178,6 +202,7 @@ public class Module03Manager : MonoBehaviour
     {
         yield return new WaitForSeconds(delayAfterStart);
 
+        // Only trigger if emergency hasn't been pressed
         if (!emergencyPressed)
             SetZapel(true);
 
@@ -202,7 +227,6 @@ public class Module03Manager : MonoBehaviour
         var a = speechManager.audioSource;
         if (a == null) yield break;
 
-        // Wait a bit for audio to start
         float t0 = Time.time;
         while (!a.isPlaying && Time.time - t0 < 1.0f)
             yield return null;
