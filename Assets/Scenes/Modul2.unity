@@ -7273,8 +7273,8 @@ MonoBehaviour:
   batteryGrab: {fileID: 632873124}
   batterySocket: {fileID: 1358180623}
   batteryAnimator: {fileID: 735488968}
-  powerBoolName: isklicked
-  powerOnWhenBoolTrue: 1
+  batteryStateIntName: BatteryState
+  onStateMinValue: 1
   armIsUp: 0
   armIsDown: 1
 --- !u!4 &592692262
@@ -7980,7 +7980,14 @@ MonoBehaviour:
   socketState: {fileID: 1358180629}
   clickAction: {fileID: 3001919216989983466, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   targetAnimator: {fileID: 735488968}
-  boolName: isklicked
+  stateIntName: BatteryState
+  stateOff: 0
+  statePowerOn: 1
+  stateOnIdle: 2
+  stateUsedIdle: 3
+  statePowerOff: 4
+  cooldownSeconds: 3
+  module06: {fileID: 0}
   grab: {fileID: 632873124}
 --- !u!1001 &642787090
 PrefabInstance:
@@ -11545,8 +11552,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac69d9bbb31d2e342ac8a214ad3f32a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LayerSwitcher
-  defaultLayer: 0
-  highlightLayer: 7
 --- !u!4 &914963917 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d27b6ed369aa82c42a6f1063ec88bfdc, type: 3}
