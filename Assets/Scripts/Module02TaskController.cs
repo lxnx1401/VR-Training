@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.XR.Interaction.Toolkit.Interactables;
+using UnityEngine.XR.Interaction.Toolkit.Interactors;
 
 public class Module02TaskController : MonoBehaviour
 {
@@ -14,17 +16,20 @@ public class Module02TaskController : MonoBehaviour
     [SerializeField] private int task5ArmDownIndex = 8;
 
     [Header("XR References")]
-    [SerializeField] private UnityEngine.XR.Interaction.Toolkit.Interactables.XRSimpleInteractable leftShoulderInteractable;
-    [SerializeField] private UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable batteryGrab;
+    [SerializeField] private XRSimpleInteractable leftShoulderInteractable;
+    [SerializeField] private XRGrabInteractable batteryGrab;
 
     [Tooltip("XRSocketInteractor on the robot battery slot (recommended)")]
-    [SerializeField] private UnityEngine.XR.Interaction.Toolkit.Interactors.XRSocketInteractor batterySocket;
+    [SerializeField] private XRSocketInteractor batterySocket;
 
-    [Header("Power Button (Animator Bool on the battery)")]
+    [Header("Battery Animator (INT state)")]
     [SerializeField] private Animator batteryAnimator;
-    [SerializeField] private string powerBoolName = "Pressed"; // must match your boolName
-    [Tooltip("If true: power is considered ON when bool is true.")]
-    [SerializeField] private bool powerOnWhenBoolTrue = true;
+
+    [Tooltip("INT parameter name (example: BatteryState)")]
+    [SerializeField] private string batteryStateIntName = "BatteryState";
+
+    [Tooltip("Battery counts as ON when BatteryState >= this value (example: 2 for OnIdle)")]
+    [SerializeField] private int onStateMinValue = 2;
 
     [Header("Arm State")]
     [Tooltip("Fallback toggle if you don't use animation events.")]
@@ -33,6 +38,10 @@ public class Module02TaskController : MonoBehaviour
 
     // One-shot flags
     private bool doneTask1, doneTask2, doneTask3, doneTask4, doneTask5;
+
+    // line tracking + edge detection for Task 4
+    private int lastIndex = -999;
+    private bool wasOnWhenEnteringTask4;
 
     private void OnEnable()
     {
@@ -61,9 +70,16 @@ public class Module02TaskController : MonoBehaviour
     private void Update()
     {
         if (speechManager == null) return;
-        if (!speechManager.isWaitingForTask) return;
 
         int idx = speechManager.GetCurrentIndex();
+
+        if (idx != lastIndex)
+        {
+            OnLineChanged(idx);
+            lastIndex = idx;
+        }
+
+        if (!speechManager.isWaitingForTask) return;
 
         // Task 1: arm up
         if (idx == task1ArmUpIndex && !doneTask1 && armIsUp)
@@ -95,21 +111,27 @@ public class Module02TaskController : MonoBehaviour
             }
         }
 
-        // Task 4: power pressed (Animator Bool) - only valid if battery is inserted
+        // Task 4: power button pressed (INT state changes OFF -> ON)
         if (idx == task4PowerPressIndex && !doneTask4)
         {
-            if (IsBatteryInSocket() && IsPowerOnByAnimator())
+            if (!IsBatteryInSocket()) return;
+
+            bool isOnNow = IsBatteryOnByStateInt();
+
+            // advance only when we detect OFF -> ON transition on this line
+            if (!wasOnWhenEnteringTask4 && isOnNow)
             {
                 doneTask4 = true;
                 Advance();
                 return;
             }
+            return;
         }
 
-        // Task 5: arm down (only after power on)
+        // Task 5: arm down (only after power ON)
         if (idx == task5ArmDownIndex && !doneTask5)
         {
-            if (IsBatteryInSocket() && IsPowerOnByAnimator() && armIsDown)
+            if (IsBatteryInSocket() && IsBatteryOnByStateInt() && armIsDown)
             {
                 doneTask5 = true;
                 Advance();
@@ -118,23 +140,30 @@ public class Module02TaskController : MonoBehaviour
         }
     }
 
+    private void OnLineChanged(int newIdx)
+    {
+        // Snapshot current ON status when we ENTER Task 4
+        if (newIdx == task4PowerPressIndex)
+            wasOnWhenEnteringTask4 = IsBatteryOnByStateInt();
+        else
+            wasOnWhenEnteringTask4 = false;
+    }
+
     private bool IsBatteryInSocket()
     {
-        // Recommended path:
         if (batterySocket != null)
             return batterySocket.hasSelection;
 
-        // If you didn't assign the socket, we can't verify insertion � assume true.
-        return true;
+        return true; // fallback
     }
 
-    private bool IsPowerOnByAnimator()
+    private bool IsBatteryOnByStateInt()
     {
-        if (batteryAnimator == null || string.IsNullOrWhiteSpace(powerBoolName))
-            return false;
+        if (batteryAnimator == null) return false;
+        if (string.IsNullOrWhiteSpace(batteryStateIntName)) return false;
 
-        bool v = batteryAnimator.GetBool(powerBoolName);
-        return powerOnWhenBoolTrue ? v : !v;
+        int s = batteryAnimator.GetInteger(batteryStateIntName);
+        return s >= onStateMinValue;
     }
 
     private void Advance()
@@ -164,7 +193,7 @@ public class Module02TaskController : MonoBehaviour
             return;
         }
 
-        if (idx == task5ArmDownIndex && armIsDown && !doneTask5 && IsPowerOnByAnimator())
+        if (idx == task5ArmDownIndex && armIsDown && !doneTask5 && IsBatteryOnByStateInt())
         {
             doneTask5 = true;
             Advance();
@@ -189,7 +218,6 @@ public class Module02TaskController : MonoBehaviour
         if (speechManager == null) return;
         if (!speechManager.isWaitingForTask) return;
         if (speechManager.GetCurrentIndex() != expectedIndex) return;
-
         Advance();
     }
 
