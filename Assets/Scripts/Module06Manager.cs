@@ -25,6 +25,35 @@ public class Module06Manager : MonoBehaviour
     [Tooltip("Snap battery into the OFF robot socket right after closing controller.")]
     [SerializeField] private bool snapBatteryIntoOffSocketOnSwap = true;
 
+    [Header("Module 6 Tasks - XR References")]
+    [SerializeField] private XRSimpleInteractable leftShoulderInteractable;
+
+    [Header("Battery State (INT)")]
+    [SerializeField] private Animator batteryAnimator;
+    [SerializeField] private string stateIntName = "BatteryState";
+
+    [Header("State Values")]
+    [SerializeField] private int stateOff = 0;
+    [SerializeField] private int stateOnIdle = 2;
+    [SerializeField] private int stateUsedIdle = 3;
+    [SerializeField] private int statePowerOff = 4;
+
+    [Tooltip("Force battery state to ON after robot swap + snap, so you can turn it OFF without first clicking.")]
+    [SerializeField] private bool forceBatteryOnAfterSwap = true;
+
+    [Tooltip("Which ON state should be forced after swap? Usually OnIdle (2) or UsedIdle (3).")]
+    [SerializeField] private int forceOnStateValue = 2;
+
+    [Header("Anti-unwanted state jumps (debug safety)")]
+    [Tooltip("If battery jumps to PowerOff (4) before we are on the PowerOff task line, we auto-correct back to ON.")]
+    [SerializeField] private bool autoCorrectEarlyPowerOff = true;
+
+    [Tooltip("Print warnings when a wrong state jump is detected.")]
+    [SerializeField] private bool logStateIssues = true;
+
+    [Tooltip("Socket on the charger where the battery must be placed.")]
+    [SerializeField] private XRSocketInteractor chargerSocket;
+
     [Header("Task line indices (0-based)")]
     [SerializeField] private int idxPressShutdown = 3;
     [SerializeField] private int idxCloseController = 4;
@@ -35,12 +64,24 @@ public class Module06Manager : MonoBehaviour
 
     // --- task flags ---
     private bool shutdownPressed;
-    private bool armLifted;
-    private bool batteryPoweredOff;
-    private bool batteryPlacedOnCharger;
+    private bool armIsUp;
+    private bool batteryPowerOffDone;
 
     private bool swappedToOffRobot;
+    private bool forcedStateOnce;
     private int lastIdx = -999;
+
+    private void OnEnable()
+    {
+        if (leftShoulderInteractable != null)
+            leftShoulderInteractable.selectEntered.AddListener(OnShoulderSelected);
+    }
+
+    private void OnDisable()
+    {
+        if (leftShoulderInteractable != null)
+            leftShoulderInteractable.selectEntered.RemoveListener(OnShoulderSelected);
+    }
 
     private void Update()
     {
@@ -54,14 +95,20 @@ public class Module06Manager : MonoBehaviour
             lastIdx = idx;
         }
 
+        // Safety: battery should NOT enter PowerOff early
+        if (autoCorrectEarlyPowerOff)
+            GuardAgainstEarlyPowerOff(idx);
+
         if (!speechManager.isWaitingForTask) return;
 
+        // Task: Press Shutdown
         if (idx == idxPressShutdown)
         {
             if (shutdownPressed) Advance();
             return;
         }
 
+        // Task: Close controller -> swap robot + snap + (force battery ON once)
         if (idx == idxCloseController)
         {
             if (controllerCanvasRoot != null && !controllerCanvasRoot.activeInHierarchy)
@@ -75,47 +122,72 @@ public class Module06Manager : MonoBehaviour
                         SnapBatteryIntoOffSocket();
                 }
 
+                // Force battery ON only ONCE and only after swap
+                if (forceBatteryOnAfterSwap && swappedToOffRobot && !forcedStateOnce)
+                {
+                    ForceBatteryStateOn();
+                    forcedStateOnce = true;
+                }
+
                 Advance();
             }
             return;
         }
 
+        // Task: Lift arm
         if (idx == idxLiftArm)
         {
-            if (armLifted) Advance();
+            if (armIsUp)
+                Advance();
             return;
         }
 
+        // Task: Power OFF
         if (idx == idxBatteryPowerOff)
         {
-            if (batteryPoweredOff) Advance();
+            if (batteryPowerOffDone)
+            {
+                Advance();
+                return;
+            }
+
+            // Completed when state is OFF
+            if (IsBatteryInOffSocket() && IsBatteryStateOff())
+            {
+                batteryPowerOffDone = true;
+                Advance();
+            }
             return;
         }
 
+        // Task: Remove battery
         if (idx == idxRemoveBattery)
         {
-            if (!batteryPoweredOff) return;
+            if (!batteryPowerOffDone) return;
 
-            // Removed = held by hand (not socket)
             if (IsBatteryHeldByHand())
                 Advance();
 
             return;
         }
 
+        // Task: Place on charger
         if (idx == idxPlaceOnCharger)
         {
-            if (batteryPlacedOnCharger) Advance();
+            if (chargerSocket != null && chargerSocket.hasSelection)
+                Advance();
+
             return;
         }
     }
 
     private void OnLineChanged(int newIdx)
     {
+        if (newIdx == idxLiftArm) armIsUp = false;
+        if (newIdx == idxBatteryPowerOff) batteryPowerOffDone = false;
+
         if (newIdx == idxRemoveBattery)
-        {
             UnsocketBatteryFromOffSocket();
-        }
     }
 
     private void Advance()
@@ -128,7 +200,7 @@ public class Module06Manager : MonoBehaviour
     {
         if (robotOn == null || robotOff == null) return;
 
-        Vector3 offPos = robotOff.position; // keep OFF Y as-is
+        Vector3 offPos = robotOff.position;
         Vector3 onPos = robotOn.position;
 
         offPos.x = onPos.x;
@@ -144,8 +216,70 @@ public class Module06Manager : MonoBehaviour
     }
 
     // -----------------------
-    // Battery helpers (XR)
+    // Arm logic
     // -----------------------
+
+    private void OnShoulderSelected(SelectEnterEventArgs args)
+    {
+        armIsUp = true;
+        TryAdvanceNow(idxLiftArm);
+    }
+
+    public void SetArmUp()
+    {
+        armIsUp = true;
+        TryAdvanceNow(idxLiftArm);
+    }
+
+    // -----------------------
+    // Battery state helpers
+    // -----------------------
+
+    private void ForceBatteryStateOn()
+    {
+        if (batteryAnimator == null) return;
+        if (string.IsNullOrWhiteSpace(stateIntName)) return;
+
+        // Only allow forcing to ON states
+        int target = (forceOnStateValue == stateUsedIdle) ? stateUsedIdle : stateOnIdle;
+        batteryAnimator.SetInteger(stateIntName, target);
+    }
+
+    private void GuardAgainstEarlyPowerOff(int currentSpeechIdx)
+    {
+        if (batteryAnimator == null) return;
+        if (string.IsNullOrWhiteSpace(stateIntName)) return;
+
+        // Before we are in the "power off" task line, we do not accept statePowerOff
+        if (currentSpeechIdx < idxBatteryPowerOff)
+        {
+            int s = batteryAnimator.GetInteger(stateIntName);
+            if (s == statePowerOff)
+            {
+                // Auto-correct to ON idle
+                int back = (forceOnStateValue == stateUsedIdle) ? stateUsedIdle : stateOnIdle;
+                batteryAnimator.SetInteger(stateIntName, back);
+
+                if (logStateIssues)
+                    Debug.LogWarning("[Module06Manager] BatteryState jumped to PowerOff early. Auto-corrected back to ON. Check Animator transitions or other scripts setting BatteryState.");
+            }
+        }
+    }
+
+    private bool IsBatteryStateOff()
+    {
+        if (batteryAnimator == null) return false;
+        if (string.IsNullOrWhiteSpace(stateIntName)) return false;
+
+        int s = batteryAnimator.GetInteger(stateIntName);
+        return s == stateOff;
+    }
+
+    private bool IsBatteryInOffSocket()
+    {
+        if (robotOffBatterySocket == null) return true;
+        return robotOffBatterySocket.hasSelection;
+    }
 
     private bool IsBatteryHeldByHand()
     {
@@ -155,12 +289,15 @@ public class Module06Manager : MonoBehaviour
         var interactor = batteryGrab.firstInteractorSelecting;
         if (interactor == null) return false;
 
-        // If socket is holding it, it's not removed
         if (robotOffBatterySocket != null && interactor == robotOffBatterySocket)
             return false;
 
         return true;
     }
+
+    // -----------------------
+    // Socket snap/unsnap
+    // -----------------------
 
     private void SnapBatteryIntoOffSocket()
     {
@@ -169,20 +306,15 @@ public class Module06Manager : MonoBehaviour
         var mgr = batteryGrab.interactionManager;
         if (mgr == null) return;
 
-        // If socket already holds something, don't fight
         if (robotOffBatterySocket.hasSelection) return;
 
-        // If battery is currently selected, release it first
         if (batteryGrab.isSelected)
         {
             var currentInteractor = batteryGrab.firstInteractorSelecting;
             if (currentInteractor != null)
-            {
                 mgr.SelectExit((IXRSelectInteractor)currentInteractor, (IXRSelectInteractable)batteryGrab);
-            }
         }
 
-        // Snap into OFF socket using new API (interfaces)
         mgr.SelectEnter((IXRSelectInteractor)robotOffBatterySocket, (IXRSelectInteractable)batteryGrab);
     }
 
@@ -197,13 +329,11 @@ public class Module06Manager : MonoBehaviour
 
         var currentInteractor = batteryGrab.firstInteractorSelecting;
         if (currentInteractor == robotOffBatterySocket)
-        {
             mgr.SelectExit((IXRSelectInteractor)robotOffBatterySocket, (IXRSelectInteractable)batteryGrab);
-        }
     }
 
     // -----------------------
-    // UI / Interaction Hooks
+    // UI / External hooks
     // -----------------------
 
     public void NotifyShutdownPressed()
@@ -212,22 +342,14 @@ public class Module06Manager : MonoBehaviour
         TryAdvanceNow(idxPressShutdown);
     }
 
-    public void NotifyArmLifted()
+    public void NotifyBatteryPowerOff_Explicit()
     {
-        armLifted = true;
-        TryAdvanceNow(idxLiftArm);
-    }
-
-    public void NotifyBatteryPowerOff()
-    {
-        batteryPoweredOff = true;
+        batteryPowerOffDone = true;
         TryAdvanceNow(idxBatteryPowerOff);
     }
 
-    // Call from CHARGER socket selectEntered OR your charger logic
     public void NotifyBatteryPlacedOnCharger()
     {
-        batteryPlacedOnCharger = true;
         TryAdvanceNow(idxPlaceOnCharger);
     }
 

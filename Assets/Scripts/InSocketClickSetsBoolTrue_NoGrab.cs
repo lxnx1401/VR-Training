@@ -7,19 +7,33 @@ public class InSocketClickSetsBoolTrue_NoGrab : MonoBehaviour
     [Header("Socket state (Script liegt am Socket)")]
     [SerializeField] private BatterySocketState socketState;
 
-    [Header("Input für PC-Test (Left Mouse)")]
-    [SerializeField] private InputActionReference clickAction; 
+    [Header("Input fuer PC-Test / XR Action")]
+    [SerializeField] private InputActionReference clickAction;
 
     [Header("Animator Target")]
     [SerializeField] private Animator targetAnimator;
-    [SerializeField] private string boolName = "Pressed";
+
+    [Header("Animator INT param")]
+    [SerializeField] private string stateIntName = "BatteryState";
+
+    [Header("State Values")]
+    [SerializeField] private int stateOff = 0;
+    [SerializeField] private int statePowerOn = 1;     // plays PowerOn animation then goes to OnIdle
+    [SerializeField] private int stateOnIdle = 2;      // stable ON
+    [SerializeField] private int stateUsedIdle = 3;    // stable USED
+    [SerializeField] private int statePowerOff = 4;    // plays PowerOff animation then goes to Off
+
+    [Header("Spam protection")]
+    [SerializeField] private float cooldownSeconds = 3.0f;
+    private float lastToggleTime = -999f;
+
+    [Header("Optional: tell Module06 when power off started")]
+    [SerializeField] private Module06Manager module06;
 
     [Header("Grab Interactable")]
     [SerializeField] private UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable grab;
 
-    // --- CHALLENGE MODU EKLEMESİ ---
     private bool batteryTaskCompleted = false;
-    // -------------------------------
 
     private void Awake()
     {
@@ -49,28 +63,27 @@ public class InSocketClickSetsBoolTrue_NoGrab : MonoBehaviour
 
     private void OnGrabSelectEntered(SelectEnterEventArgs args)
     {
-        // --- AGA BURASI GÖREVİ TETİKLEDİĞİMİZ YER ---
-        // Eğer tutan şey bir Socket değilse (yani bir el/interactor ise) ve görev henüz bitmediyse
+        // Task trigger when a HAND grabs it (not socket)
         if (!(args.interactorObject is UnityEngine.XR.Interaction.Toolkit.Interactors.XRSocketInteractor))
         {
             if (!batteryTaskCompleted)
             {
                 batteryTaskCompleted = true;
                 if (TaskUIManager.instance != null)
-                {
                     TaskUIManager.instance.CompleteTask("LocateBattery");
-                }
             }
         }
-        // --------------------------------------------
 
+        // NoGrab while in socket
         if (socketState == null || !socketState.IsBatteryInSocket)
             return;
 
+        // allow socket to select it
         if (args.interactorObject is UnityEngine.XR.Interaction.Toolkit.Interactors.XRSocketInteractor)
             return;
 
-        if (grab.interactionManager != null)
+        // force release if a hand tries to grab while it's in socket
+        if (grab != null && grab.interactionManager != null)
             grab.interactionManager.SelectExit(args.interactorObject, grab);
     }
 
@@ -79,9 +92,54 @@ public class InSocketClickSetsBoolTrue_NoGrab : MonoBehaviour
         if (socketState == null || !socketState.IsBatteryInSocket)
             return;
 
-        if (targetAnimator == null || string.IsNullOrEmpty(boolName))
+        if (Time.time - lastToggleTime < cooldownSeconds)
             return;
 
-        targetAnimator.SetBool(boolName, true);
+        if (targetAnimator == null || string.IsNullOrEmpty(stateIntName))
+            return;
+
+        lastToggleTime = Time.time;
+
+        int current = targetAnimator.GetInteger(stateIntName);
+
+        bool isOff = (current == stateOff);
+        bool isOnOrUsed = (current == stateOnIdle || current == stateUsedIdle);
+
+        if (isOff)
+        {
+            // Turn ON => go to PowerOn animation
+            targetAnimator.SetInteger(stateIntName, statePowerOn);
+        }
+        else if (isOnOrUsed)
+        {
+            // Turn OFF => go to PowerOff animation
+            targetAnimator.SetInteger(stateIntName, statePowerOff);
+
+            // Module06: we consider "power off action done" when we ENTER poweroff
+            // If you prefer "after animation ends", call module06 from an animation event instead.
+            if (module06 != null)
+                module06.NotifyBatteryPowerOff_Explicit();
+        }
+        else
+        {
+            // If currently in PowerOn/PowerOff, ignore spamming (cooldown already helps)
+        }
+    }
+
+    // Optional helper for other scripts: set USED state explicitly
+    public void SetUsedState(bool used)
+    {
+        if (targetAnimator == null || string.IsNullOrEmpty(stateIntName)) return;
+
+        int current = targetAnimator.GetInteger(stateIntName);
+        if (current == stateOnIdle || current == stateUsedIdle)
+            targetAnimator.SetInteger(stateIntName, used ? stateUsedIdle : stateOnIdle);
+    }
+
+    // Optional: call from animation event at end of PowerOff clip
+    public void ForceOffState()
+    {
+        if (targetAnimator == null || string.IsNullOrEmpty(stateIntName)) return;
+        targetAnimator.SetInteger(stateIntName, stateOff);
     }
 }

@@ -3222,48 +3222,48 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   dialogueLines:
-  - audioClip: {fileID: 8300000, guid: d7fb1fe8d945b7f45aa505896cf25512, type: 3}
+  - audioClip: {fileID: 8300000, guid: 7c62186a32ef05a4f962bbb8326e5633, type: 3}
     subtitle: 'Final step: a safe shutdown. This prevents damage, battery issues,
       and unexpected movement after use.'
-    talkTrigger: talk2
+    talkTrigger: expl
     waitForTaskUnlock: 0
-  - audioClip: {fileID: 8300000, guid: a913eb925c31bb144bce2bdf948c6feb, type: 3}
+  - audioClip: {fileID: 8300000, guid: 5266823c72b1f47438372b08a641e092, type: 3}
     subtitle: 'The order matters: shut the robot down first, then power off and remove
       the battery, then place it on charge.'
     talkTrigger: argu
     waitForTaskUnlock: 0
-  - audioClip: {fileID: 8300000, guid: 6652dc88da808fe44a39d0a0669e9dbd, type: 3}
+  - audioClip: {fileID: 8300000, guid: e7f9ac6cce7f9d04c8acfb33ede5aaa2, type: 3}
     subtitle: "Let\u2019s do the full procedure once \u2014 clean and controlled."
     talkTrigger: talk
     waitForTaskUnlock: 0
-  - audioClip: {fileID: 8300000, guid: b596110fec4b5624a8a0ee9bbecbf692, type: 3}
+  - audioClip: {fileID: 8300000, guid: d58919f7e92e66a418b8fd31b48a246d, type: 3}
     subtitle: Press Shutdown in the controller menu.
     talkTrigger: talk2
     waitForTaskUnlock: 1
-  - audioClip: {fileID: 8300000, guid: ba2dcfaad82c96846bcee79a127443d6, type: 3}
+  - audioClip: {fileID: 8300000, guid: 1f82a8fa6f00bdb46a72750cfa31ca2b, type: 3}
     subtitle: Close the controller with X
     talkTrigger: expl
     waitForTaskUnlock: 1
-  - audioClip: {fileID: 8300000, guid: d5c4e4e0ea570d746816e18a1af93fe0, type: 3}
+  - audioClip: {fileID: 8300000, guid: e6599ce7c646b7f43b79b931eb869f55, type: 3}
     subtitle: Now lift the arm to access the battery.
     talkTrigger: argu
     waitForTaskUnlock: 1
-  - audioClip: {fileID: 8300000, guid: cb160dd3bdc7eeb49af82658201b5641, type: 3}
+  - audioClip: {fileID: 8300000, guid: 849dbf9700bc9414f942e6ca5f8ddc9c, type: 3}
     subtitle: Press the battery power button to switch it off.
-    talkTrigger: happy
+    talkTrigger: talk
     waitForTaskUnlock: 1
-  - audioClip: {fileID: 8300000, guid: 4f4cb786f7bc98048b820c4c4d248b97, type: 3}
+  - audioClip: {fileID: 8300000, guid: 2cdb339b40da96b4f850b830c5e4d714, type: 3}
     subtitle: Remove the battery from the slot.
-    talkTrigger: disapoint
+    talkTrigger: expl
     waitForTaskUnlock: 1
-  - audioClip: {fileID: 8300000, guid: 4f4cb786f7bc98048b820c4c4d248b97, type: 3}
+  - audioClip: {fileID: 8300000, guid: d6d34e16a994df5438df138e5225b812, type: 3}
     subtitle: Place the battery on the charger.
-    talkTrigger: disapoint
-    waitForTaskUnlock: 0
-  - audioClip: {fileID: 8300000, guid: 4f4cb786f7bc98048b820c4c4d248b97, type: 3}
+    talkTrigger: talk2
+    waitForTaskUnlock: 1
+  - audioClip: {fileID: 8300000, guid: 07bfc149bb33f384f926de67d2cb65ae, type: 3}
     subtitle: "Perfect. The robot is safely shut down and the battery is secured
       for charging. You\u2019ve completed the last module and the full training."
-    talkTrigger: disapoint
+    talkTrigger: happy
     waitForTaskUnlock: 0
   isWaitingForTask: 0
   subtitleText: {fileID: 582177647}
@@ -7527,6 +7527,127 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4656250241429746, guid: 43b45d018e04a1a43af297a8cabe477f, type: 3}
   m_PrefabInstance: {fileID: 414221308}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &428001896
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 428001897}
+  - component: {fileID: 428001898}
+  - component: {fileID: 428001899}
+  - component: {fileID: 428001900}
+  m_Layer: 0
+  m_Name: charger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &428001897
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 428001896}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.797, y: -1.3063, z: -7.4516}
+  m_LocalScale: {x: 0.66906, y: 0.66906, z: 0.66906}
+  m_ConstrainProportionsScale: 1
+  m_Children:
+  - {fileID: 1947993603}
+  - {fileID: 1029476979}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &428001898
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 428001896}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.099915504, y: 0.17468429, z: 0.11430423}
+  m_Center: {x: -0.0027067661, y: -0.004, z: 0.05947844}
+--- !u!114 &428001899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 428001896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60523e0647cc6ab43acc73cb266a32a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.XR.Interaction.Toolkit::UnityEngine.XR.Interaction.Toolkit.Interactors.XRSocketInteractor
+  m_InteractionManager: {fileID: 0}
+  m_InteractionLayers:
+    m_Bits: 4294967295
+  m_Handedness: 0
+  m_AttachTransform: {fileID: 1029476979}
+  m_KeepSelectedTargetValid: 1
+  m_DisableVisualsWhenBlockedInGroup: 1
+  m_StartingSelectedInteractable: {fileID: 0}
+  m_StartingTargetFilter: {fileID: 0}
+  m_HoverEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_HoverExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_SelectEntered:
+    m_PersistentCalls:
+      m_Calls: []
+  m_SelectExited:
+    m_PersistentCalls:
+      m_Calls: []
+  m_StartingHoverFilters: []
+  m_StartingSelectFilters: []
+  m_ShowInteractableHoverMeshes: 1
+  m_InteractableHoverMeshMaterial: {fileID: 0}
+  m_InteractableCantHoverMeshMaterial: {fileID: 0}
+  m_SocketActive: 1
+  m_InteractableHoverScale: 1
+  m_RecycleDelayTime: 1
+  m_HoverSocketSnapping: 0
+  m_SocketSnappingRadius: 0.1
+  m_SocketScaleMode: 0
+  m_FixedScale: {x: 1, y: 1, z: 1}
+  m_TargetBoundsSize: {x: 1, y: 1, z: 1}
+--- !u!114 &428001900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 428001896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: feadbc4e48ca7c947bffe24eb5391ee9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  chargerSocket: {fileID: 428001899}
+  batteryAnimator: {fileID: 1913530910}
+  stateIntName: BatteryState
+  stateOff: 0
+  stateChargingLoading: 5
+  requireMatchedBatteryObject: 0
 --- !u!1001 &430523675
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19104,6 +19225,18 @@ MonoBehaviour:
   batteryGrab: {fileID: 1913530913}
   robotOffBatterySocket: {fileID: 557801982}
   snapBatteryIntoOffSocketOnSwap: 1
+  leftShoulderInteractable: {fileID: 1174162677}
+  batteryAnimator: {fileID: 1913530910}
+  stateIntName: BatteryState
+  stateOff: 0
+  stateOnIdle: 2
+  stateUsedIdle: 3
+  statePowerOff: 4
+  forceBatteryOnAfterSwap: 1
+  forceOnStateValue: 2
+  autoCorrectEarlyPowerOff: 1
+  logStateIssues: 1
+  chargerSocket: {fileID: 428001899}
   idxPressShutdown: 3
   idxCloseController: 4
   idxLiftArm: 5
@@ -19164,6 +19297,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4090401237554456, guid: ddadf5c8212785e408ce381af1aa383f, type: 3}
   m_PrefabInstance: {fileID: 1007972033}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1029476978
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1029476979}
+  m_Layer: 0
+  m_Name: attachpoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1029476979
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1029476978}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: -0.0076999664, z: 0.0055999756}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 428001897}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!1 &1033726416
 GameObject:
   m_ObjectHideFlags: 0
@@ -34515,7 +34679,14 @@ MonoBehaviour:
   socketState: {fileID: 557801988}
   clickAction: {fileID: 3001919216989983466, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   targetAnimator: {fileID: 1913530910}
-  boolName: isklicked
+  stateIntName: BatteryState
+  stateOff: 0
+  statePowerOn: 1
+  stateOnIdle: 2
+  stateUsedIdle: 3
+  statePowerOff: 4
+  cooldownSeconds: 3
+  module06: {fileID: 1000799111}
   grab: {fileID: 1913530913}
 --- !u!95 &1913530910
 Animator:
@@ -34648,14 +34819,14 @@ MonoBehaviour:
   m_StartingSelectFilters: []
   m_StartingInteractionStrengthFilters: []
   m_AttachTransform: {fileID: 614735811}
-  m_SecondaryAttachTransform: {fileID: 0}
+  m_SecondaryAttachTransform: {fileID: 1029476979}
   m_UseDynamicAttach: 0
   m_MatchAttachPosition: 1
   m_MatchAttachRotation: 1
   m_SnapToColliderVolume: 1
   m_ReinitializeDynamicAttachEverySingleGrab: 1
   m_AttachEaseInTime: 0.15
-  m_MovementType: 1
+  m_MovementType: 2
   m_PredictedVisualsTransform: {fileID: 0}
   m_VelocityDamping: 1
   m_VelocityScale: 1
@@ -35379,6 +35550,88 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 4896773785391470, guid: da7092e605cbddf428c1c43821931e8b, type: 3}
   m_PrefabInstance: {fileID: 1939086526}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1947993602
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 428001897}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 69e132e12a99e7149a4af65596c2a613, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.01000001
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 69e132e12a99e7149a4af65596c2a613, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.015000003
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 69e132e12a99e7149a4af65596c2a613, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.01000001
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 69e132e12a99e7149a4af65596c2a613, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.00059986115
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 69e132e12a99e7149a4af65596c2a613, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.06469989
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 69e132e12a99e7149a4af65596c2a613, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.0028996468
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 69e132e12a99e7149a4af65596c2a613, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.21324217
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 69e132e12a99e7149a4af65596c2a613, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 69e132e12a99e7149a4af65596c2a613, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.9769994
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 69e132e12a99e7149a4af65596c2a613, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 69e132e12a99e7149a4af65596c2a613, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 69e132e12a99e7149a4af65596c2a613, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 24.625
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 69e132e12a99e7149a4af65596c2a613, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 69e132e12a99e7149a4af65596c2a613, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7763165926407007621, guid: 69e132e12a99e7149a4af65596c2a613, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: -6629797300637803691, guid: d27b6ed369aa82c42a6f1063ec88bfdc, type: 3}
+    - target: {fileID: 919132149155446097, guid: 69e132e12a99e7149a4af65596c2a613, type: 3}
+      propertyPath: m_Name
+      value: Apple_Charger
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 69e132e12a99e7149a4af65596c2a613, type: 3}
+--- !u!4 &1947993603 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 69e132e12a99e7149a4af65596c2a613, type: 3}
+  m_PrefabInstance: {fileID: 1947993602}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1949463697
 PrefabInstance:
@@ -38485,3 +38738,4 @@ SceneRoots:
   - {fileID: 96181881}
   - {fileID: 335824971}
   - {fileID: 1000799110}
+  - {fileID: 428001897}
