@@ -19,15 +19,16 @@ public class TaskUIManager : MonoBehaviour
     public TaskUIItem[] tasks;
 
     // Görev ID'lerini tam cümleye çeviren sözlük
-    private Dictionary<string, string> taskDescriptions = new Dictionary<string, string>()
-    {
-        { "Position", "1. Position Robot in SafeZone" },
-        { "LocateBattery", "2. Find the Battery!" },
-        { "InstallBattery", "3. Install the Battery" },
-        { "StartRobot", "4. Activate Robot via Remote" },
-        { "Animations", "5. Test Movement Functions" },
-        { "Emergency", "6. Safety Check: Emergency Stop" }
-    };
+   private Dictionary<string, string> taskDescriptions = new Dictionary<string, string>()
+{
+    { "Position", "1. Position Robot in SafeZone" },
+    { "LocateBattery", "2. Find the Battery!" },
+    { "InstallBattery", "3. Install the Battery" },
+    { "StartRobot", "4. Activate Robot via Remote" },
+    { "Animations", "5. Perform 2 Special Moves" }, // Arkadaşının istediği 2 animasyon
+    { "Control30s", "6. Control Robot for 30 Seconds" }, // 30 saniye sürüş testi
+    { "Shutdown", "7. Securely Power Off Robot" } // Robotu güvenli kapatma
+};
 
     void Awake() { instance = this; }
 
