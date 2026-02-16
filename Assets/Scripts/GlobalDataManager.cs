@@ -3,6 +3,7 @@ using UnityEngine;
 public class GlobalDataManager : MonoBehaviour
 {
     public static GlobalDataManager instance;
+    public bool isBatteryInstalled = false;
 
     [Header("Session Data")]
     public int currentScore = 0;

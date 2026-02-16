@@ -3,6 +3,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class BatterySocketState : MonoBehaviour
 {
+    
     public bool IsBatteryInSocket { get; private set; }
 
     [SerializeField] private UnityEngine.XR.Interaction.Toolkit.Interactors.XRSocketInteractor socket;
@@ -39,32 +40,43 @@ public class BatterySocketState : MonoBehaviour
         socket.selectEntered.RemoveListener(OnEntered);
         socket.selectExited.RemoveListener(OnExited);
     }
+private void OnEntered(SelectEnterEventArgs args)
+{ 
+    if (GlobalDataManager.instance != null)
+{
+    GlobalDataManager.instance.isBatteryInstalled = true;
+}
+    IsBatteryInSocket = true;
 
-    private void OnEntered(SelectEnterEventArgs args)
+    // 1. GÖREV KONTROLÜ (Tag'i "Battery" olan obje girdiyse)
+    if (args.interactableObject.transform.CompareTag("Battery") && !installTaskDone)
     {
-        IsBatteryInSocket = true;
-
-        // 1. GÖREV KONTROLÜ (Tag'i "Battery" olan obje girdiyse)
-        if (args.interactableObject.transform.CompareTag("Battery") && !installTaskDone)
+        // ---------------------------------------------------------
+        // CEZA SİSTEMİ BURADA: Puan vermeden önce alanı kontrol et!
+        if (AreaSafetyManager.instance != null)
         {
-            installTaskDone = true;
-            
-            // Panodaki görevi tetikle
-            if (TaskUIManager.instance != null)
-            {
-                TaskUIManager.instance.CompleteTask("InstallBattery");
-            }
-
-            // Puan ver
-            if (GlobalDataManager.instance != null)
-            {
-                GlobalDataManager.instance.AddPoints(150);
-            }
-
-            // 2. ROBOT DEĞİŞTİRME (SWAP)
-            SwapRobots();
+            AreaSafetyManager.instance.CheckSafetyAndPunish("InstallBattery");
         }
+        // ---------------------------------------------------------
+
+        installTaskDone = true;
+        
+        // Panodaki görevi tetikle
+        if (TaskUIManager.instance != null)
+        {
+            TaskUIManager.instance.CompleteTask("InstallBattery");
+        }
+
+        // Puan ver
+        if (GlobalDataManager.instance != null)
+        {
+            GlobalDataManager.instance.AddPoints(150);
+        }
+
+        // 2. ROBOT DEĞİŞTİRME (SWAP)
+        SwapRobots();
     }
+}
 
     private void SwapRobots()
 {

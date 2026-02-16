@@ -69,6 +69,7 @@ public class ReportSlideController : MonoBehaviour
         // 5. Durum: Standart Ranklar
         if (data.currentScore > 800) return "SENIOR MECHANIC";
         if (data.currentScore > 400) return "CERTIFIED TECH";
+        if (data.currentScore <0) return "Omg plz delete the game bro";
         
         return "APPRENTICE";
     }
