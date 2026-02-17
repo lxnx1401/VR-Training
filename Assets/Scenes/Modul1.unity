@@ -2315,7 +2315,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 1.3506656
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
@@ -7911,7 +7911,14 @@ MonoBehaviour:
   socketState: {fileID: 1358180629}
   clickAction: {fileID: 3001919216989983466, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   targetAnimator: {fileID: 735488968}
-  boolName: isklicked
+  stateIntName: BatteryState
+  stateOff: 0
+  statePowerOn: 1
+  stateOnIdle: 2
+  stateUsedIdle: 3
+  statePowerOff: 4
+  cooldownSeconds: 3
+  module06: {fileID: 0}
   grab: {fileID: 632873124}
 --- !u!1001 &642787090
 PrefabInstance:
@@ -8753,6 +8760,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Render
       objectReference: {fileID: 0}
+    - target: {fileID: 4342698675971236905, guid: 37d42b2bd13d360439ff0678d8a60973, type: 3}
+      propertyPath: m_text
+      value: HINT
+      objectReference: {fileID: 0}
     - target: {fileID: 4909589912897088880, guid: 37d42b2bd13d360439ff0678d8a60973, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -8832,6 +8843,25 @@ PrefabInstance:
     - target: {fileID: 4909589912897088880, guid: 37d42b2bd13d360439ff0678d8a60973, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7518748532217354242, guid: 37d42b2bd13d360439ff0678d8a60973, type: 3}
+      propertyPath: m_text
+      value: "You can grab the robot and replace it.\n\nGreen circle: Nothing is
+        next to the robot - SAFE. \n\nYellow circle: YOU are next to the robot, but
+        the robot is not next to other objects/walls.\n\nRed circle: OBJECTS  or
+        WALLS are to next to the robot."
+      objectReference: {fileID: 0}
+    - target: {fileID: 7518748532217354242, guid: 37d42b2bd13d360439ff0678d8a60973, type: 3}
+      propertyPath: m_fontSize
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 7518748532217354242, guid: 37d42b2bd13d360439ff0678d8a60973, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 7518748532217354242, guid: 37d42b2bd13d360439ff0678d8a60973, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4279900698
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -2800,7 +2800,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 1.2532926
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
@@ -2892,7 +2892,7 @@ MonoBehaviour:
   - audioClip: {fileID: 8300000, guid: 4bff0c44832589742b7eb12ec40b3bc5, type: 3}
     subtitle: "Unexpected movement is the biggest real-world risk \u2014 one wrong
       step can hit you, a coworker, or equipment."
-    talkTrigger: wave
+    talkTrigger: argu
     waitForTaskUnlock: 0
   - audioClip: {fileID: 8300000, guid: 359e9cf24e2398c479d30a99b8c2bef6, type: 3}
     subtitle: "That\u2019s why this module can\u2019t be skipped: you must prove
@@ -17373,6 +17373,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Render
       objectReference: {fileID: 0}
+    - target: {fileID: 4342698675971236905, guid: 37d42b2bd13d360439ff0678d8a60973, type: 3}
+      propertyPath: m_text
+      value: HINT
+      objectReference: {fileID: 0}
     - target: {fileID: 4909589912897088880, guid: 37d42b2bd13d360439ff0678d8a60973, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -17452,6 +17456,25 @@ PrefabInstance:
     - target: {fileID: 4909589912897088880, guid: 37d42b2bd13d360439ff0678d8a60973, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7518748532217354242, guid: 37d42b2bd13d360439ff0678d8a60973, type: 3}
+      propertyPath: m_text
+      value: "You can't skip this module! \n\nIf the robot make false animations
+        in cotrol mode press directly \"EMERGENCY STOP\" (you have just 3 seconds
+        for press this Button) , if not you have to repeat the module!\n\n\nRemote
+        Controller using: Click/Touch with rigth XR-Controller\n\n"
+      objectReference: {fileID: 0}
+    - target: {fileID: 7518748532217354242, guid: 37d42b2bd13d360439ff0678d8a60973, type: 3}
+      propertyPath: m_fontSize
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 7518748532217354242, guid: 37d42b2bd13d360439ff0678d8a60973, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 7518748532217354242, guid: 37d42b2bd13d360439ff0678d8a60973, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4279900698
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
