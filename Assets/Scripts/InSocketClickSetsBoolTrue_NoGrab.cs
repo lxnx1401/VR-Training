@@ -109,11 +109,20 @@ public class InSocketClickSetsBoolTrue_NoGrab : MonoBehaviour
         {
             // Turn ON => go to PowerOn animation
             targetAnimator.SetInteger(stateIntName, statePowerOn);
+            if (RobotStartupManager.instance != null)
+            {
+                RobotStartupManager.instance.hasClickedBattery = true;
+            }
         }
         else if (isOnOrUsed)
         {
             // Turn OFF => go to PowerOff animation
             targetAnimator.SetInteger(stateIntName, statePowerOff);
+
+            if (RobotStartupManager.instance != null)
+            {
+                RobotStartupManager.instance.hasClickedBattery = false; 
+            }
 
             // Module06: we consider "power off action done" when we ENTER poweroff
             // If you prefer "after animation ends", call module06 from an animation event instead.
@@ -125,6 +134,24 @@ public class InSocketClickSetsBoolTrue_NoGrab : MonoBehaviour
             // If currently in PowerOn/PowerOff, ignore spamming (cooldown already helps)
         }
     }
+    // Bu metod Unity Event'lerinden (Activated gibi) çağrılabilecek
+public void TriggerClickManual(SelectEnterEventArgs args)
+{
+    // 1. KONTROL: Eğer etkileşime giren şey bir SOKET ise, bu bir tıklama değildir!
+    // Sadece el/ışın (Interactor) etkileşime girdiğinde çalış
+    if (args.interactorObject is UnityEngine.XR.Interaction.Toolkit.Interactors.XRSocketInteractor)
+    {
+        return; // Soket takıldı, hiçbir şey yapma ve çık.
+    }
+
+    // 2. KONTROL: Eğer batarya zaten sokette değilse yine tıklanmasın
+    if (socketState == null || !socketState.IsBatteryInSocket) return;
+
+    Debug.Log("EL/IŞIN İLE TIKLANDI! Robot kilitleri açılıyor...");
+    
+    // Asıl tıklama mantığını çalıştır
+    OnClick(default); 
+}
 
     // Optional helper for other scripts: set USED state explicitly
     public void SetUsedState(bool used)

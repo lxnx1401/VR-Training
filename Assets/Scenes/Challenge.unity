@@ -2448,6 +2448,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1531412685156610576, guid: d6c9934325572048cb58669312f1c58c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 984844053}
+    - targetCorrespondingSourceObject: {fileID: 1531412685156610576, guid: d6c9934325572048cb58669312f1c58c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 984844054}
   m_SourcePrefab: {fileID: 100100000, guid: d6c9934325572048cb58669312f1c58c, type: 3}
 --- !u!1001 &137705045
 PrefabInstance:
@@ -11486,7 +11489,7 @@ PrefabInstance:
     - target: {fileID: 732877344778758184, guid: fd28f23af44f73f4a95e33435872ad15, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
-      objectReference: {fileID: 1208994445}
+      objectReference: {fileID: 984844054}
     - target: {fileID: 732877344778758184, guid: fd28f23af44f73f4a95e33435872ad15, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -11509,7 +11512,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 732877344778758184, guid: fd28f23af44f73f4a95e33435872ad15, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
-      value: ExecuteStartTask
+      value: OnStartButtonPressed
       objectReference: {fileID: 0}
     - target: {fileID: 732877344778758184, guid: fd28f23af44f73f4a95e33435872ad15, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -11521,7 +11524,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 732877344778758184, guid: fd28f23af44f73f4a95e33435872ad15, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
-      value: Challenge_StartTask, Assembly-CSharp
+      value: RobotStartupManager, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 732877344778758184, guid: fd28f23af44f73f4a95e33435872ad15, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_BoolArgument
@@ -12609,7 +12612,14 @@ MonoBehaviour:
   socketState: {fileID: 1358180629}
   clickAction: {fileID: 3001919216989983466, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   targetAnimator: {fileID: 735488968}
-  boolName: isklicked
+  stateIntName: BatteryState
+  stateOff: 0
+  statePowerOn: 1
+  stateOnIdle: 2
+  stateUsedIdle: 3
+  statePowerOff: 4
+  cooldownSeconds: 3
+  module06: {fileID: 0}
   grab: {fileID: 632873124}
 --- !u!1001 &635270515
 PrefabInstance:
@@ -18219,8 +18229,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac69d9bbb31d2e342ac8a214ad3f32a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LayerSwitcher
-  defaultLayer: 0
-  highlightLayer: 7
 --- !u!4 &914963917 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d27b6ed369aa82c42a6f1063ec88bfdc, type: 3}
@@ -19013,6 +19021,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   safeZone: {fileID: 860822890}
+--- !u!114 &984844054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 984844046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 265ba8fb36be0eb78b81e3d727539700, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  socketState: {fileID: 1358180629}
+  leverAnimator: {fileID: 1358180626}
+  leverBoolName: Pressed
+  hasLiftedLever: 0
+  hasInsertedBattery: 0
+  hasClickedBattery: 0
+  hasLoweredLever: 0
 --- !u!1 &993964369
 GameObject:
   m_ObjectHideFlags: 0
@@ -22364,7 +22391,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1208994438}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f3dab7966df890cf79b69c9d7e1b9535, type: 3}
   m_Name: 

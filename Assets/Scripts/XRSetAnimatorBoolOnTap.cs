@@ -14,7 +14,7 @@ public class XRToggleAnimatorBool : MonoBehaviour
             animator = GetComponentInParent<Animator>();
     }
 
-    // an XR Simple Interactable -> Activated() hängen
+    // an XR Simple Interactable -> Activated() hï¿½ngen
     public void Toggle()
     {
         if (animator == null) return;
@@ -22,6 +22,12 @@ public class XRToggleAnimatorBool : MonoBehaviour
         lastTime = Time.time;
 
         bool current = animator.GetBool(boolName);
-        animator.SetBool(boolName, !current);
+        bool nextState = !current; // Gelecek olan durum
+        animator.SetBool(boolName, nextState);
+
+        if (RobotStartupManager.instance != null)
+        {
+            RobotStartupManager.instance.SetLeverState(nextState);
+        }
     }
 }

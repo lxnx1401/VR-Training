@@ -72,13 +72,16 @@ private void OnEntered(SelectEnterEventArgs args)
         {
             GlobalDataManager.instance.AddPoints(150);
         }
+        if (RobotStartupManager.instance != null)
+        {
+            RobotStartupManager.instance.hasInsertedBattery = true;
+        }
 
-        // 2. ROBOT DEĞİŞTİRME (SWAP)
-        SwapRobots();
+        
     }
 }
 
-    private void SwapRobots()
+    public void SwapRobots()
 {
     if (offRobot != null && onRobot != null)
     {
