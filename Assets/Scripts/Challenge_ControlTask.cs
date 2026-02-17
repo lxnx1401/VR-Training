@@ -29,7 +29,7 @@ public class Challenge_ControlTask : MonoBehaviour
     void Start()
     {
         currentTimer = requiredTime;
-        UpdateTimerUI();
+        if (timerText != null) timerText.text = "";
     }
 
     void Update()
@@ -59,6 +59,7 @@ public class Challenge_ControlTask : MonoBehaviour
         if (!taskStarted)
         {
             taskStarted = true;
+            if (timerText != null) timerText.gameObject.SetActive(true);
         }
 
         // CEZA KONTROLÜ (Sadece daha önce ceza yenmediyse AreaSafetyManager'ı çağır)
@@ -143,12 +144,11 @@ public class Challenge_ControlTask : MonoBehaviour
         if (robotAnimator != null) robotAnimator.SetBool(zapelBoolName, on);
     }
 
-    private void UpdateTimerUI()
+  private void UpdateTimerUI()
     {
-        if (timerText != null)
+        if (timerText != null && taskStarted)
         {
-            if (!taskStarted) timerText.text = "PUSH BUTTONS TO START";
-            else timerText.text = "TESTING... " + currentTimer.ToString("F1") + "s";
+            timerText.text = "TESTING... " + currentTimer.ToString("F1") + "s";
         }
     }
 
@@ -157,5 +157,12 @@ public class Challenge_ControlTask : MonoBehaviour
         isTaskCompleted = true;
         if (TaskUIManager.instance != null) TaskUIManager.instance.CompleteTask(taskID);
         if (timerText != null) timerText.text = "DRIVE TEST COMPLETED!";
+
+        StartCoroutine(ClearTextAfterDelay(3f));
     }
+    private IEnumerator ClearTextAfterDelay(float delay)
+{
+    yield return new WaitForSeconds(delay);
+    if (timerText != null) timerText.text = ""; // Sadece içeriği boşaltıyoruz
+}
 }
