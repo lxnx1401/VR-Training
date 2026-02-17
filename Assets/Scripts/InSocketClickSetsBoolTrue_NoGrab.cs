@@ -89,8 +89,38 @@ public class InSocketClickSetsBoolTrue_NoGrab : MonoBehaviour
 
     private void OnClick(InputAction.CallbackContext ctx)
     {
+        // 1. Soket kontrolü
         if (socketState == null || !socketState.IsBatteryInSocket)
             return;
+
+        // --- YENİ KISIM: IŞIN KONTROLÜ (ÇAKIŞMAYI ÖNLEYEN FİLTRE) ---
+        // Sadece ışınımız (Raycast) bu bataryaya çarpıyorsa işlemi devam ettir.
+        // Bu sayede Start butonuna basarken batarya kendi kendine tetiklenmez.
+        Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
+      if (Physics.Raycast(ray, out RaycastHit hit, 5.0f))
+{
+    string hitName = hit.transform.name;
+    Debug.Log("<color=cyan>Işın Şuna Takıldı: </color>" + hitName);
+
+    // 1. KONTROL: Direkt batarya mı?
+    bool hitMe = (hit.transform == this.transform || hit.transform.IsChildOf(this.transform));
+
+    // 2. KONTROL: Robot gövdesi mi? 
+    // Logda "RobotOff" gördüğün için sadece "Off" kelimesini aratmak daha garantidir
+    bool hitRobot = hitName.ToLower().Contains("robot") || hitName.ToLower().Contains("off");
+
+    if (hitMe || hitRobot)
+    {
+        Debug.Log("<color=green>HEDEF DOĞRU: İşlem başlatılıyor...</color>");
+        // Buradan aşağısı devam edecek, return yapmıyoruz!
+    }
+    else
+    {
+        Debug.Log("Işın alakasız bir yere (" + hitName + ") çarptı, iptal.");
+        return;
+    }
+}
+        // ----------------------------------------------------------
 
         if (Time.time - lastToggleTime < cooldownSeconds)
             return;
@@ -107,31 +137,18 @@ public class InSocketClickSetsBoolTrue_NoGrab : MonoBehaviour
 
         if (isOff)
         {
-            // Turn ON => go to PowerOn animation
             targetAnimator.SetInteger(stateIntName, statePowerOn);
             if (RobotStartupManager.instance != null)
-            {
                 RobotStartupManager.instance.hasClickedBattery = true;
-            }
         }
         else if (isOnOrUsed)
         {
-            // Turn OFF => go to PowerOff animation
             targetAnimator.SetInteger(stateIntName, statePowerOff);
-
             if (RobotStartupManager.instance != null)
-            {
                 RobotStartupManager.instance.hasClickedBattery = false; 
-            }
 
-            // Module06: we consider "power off action done" when we ENTER poweroff
-            // If you prefer "after animation ends", call module06 from an animation event instead.
             if (module06 != null)
                 module06.NotifyBatteryPowerOff_Explicit();
-        }
-        else
-        {
-            // If currently in PowerOn/PowerOff, ignore spamming (cooldown already helps)
         }
     }
     // Bu metod Unity Event'lerinden (Activated gibi) çağrılabilecek
