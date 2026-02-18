@@ -32,6 +32,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Challenge.unity
     guid: 7326e6a7643bb714f896980059603756
+  - enabled: 1
+    path: Assets/Scenes/basicscene.unity
+    guid: b8f3932c00c409c4ca9116f2c50c5beb
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: ed015b83823f616418fcacf4c219a1af, type: 2}

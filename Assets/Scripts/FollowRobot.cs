@@ -14,18 +14,26 @@ public class FollowRobot : MonoBehaviour
     [Header("Rotation Settings")]
     public Vector3 rotationOffset = new Vector3(90f, 0f, 0f);
 
-    void LateUpdate()
+   void LateUpdate()
     {
-        // Aktif robotu bulalım
-        if (offRobot != null && offRobot.gameObject.activeInHierarchy)
-            activeTarget = offRobot;
-        else if (onRobot != null && onRobot.gameObject.activeInHierarchy)
+        // Önce OnRobot'u kontrol et (Çünkü o önceliklidir, aktifse odur)
+        if (onRobot != null && onRobot.gameObject.activeInHierarchy)
+        {
             activeTarget = onRobot;
+        }
+        // Değilse OffRobot'u kontrol et
+        else if (offRobot != null && offRobot.gameObject.activeInHierarchy)
+        {
+            activeTarget = offRobot;
+        }
 
         // Takip et
         if (activeTarget != null)
         {
+            // Robotun sadece altındaki zemini takip etmesi için:
             transform.position = new Vector3(activeTarget.position.x, fixedYPosition, activeTarget.position.z);
+            
+            // Robotun rotasyonu değiştikçe silindirin rotasyonu bozulmasın diye fixed rotation:
             transform.rotation = Quaternion.Euler(rotationOffset);
         }
     }

@@ -69,7 +69,7 @@ public class EndGameUI : MonoBehaviour
     }
 
     public void OpenScoreBoard()
-    {
+    {   
         clipboardPanel.SetActive(false);
         scoreBoardPanel.SetActive(true);
 
@@ -83,6 +83,7 @@ public class EndGameUI : MonoBehaviour
             foreach (var attempt in sortedList)
             {
                 GameObject go = Instantiate(scoreRowPrefab, scoreListParent);
+                go.transform.localPosition = new Vector3(go.transform.localPosition.x, go.transform.localPosition.y, 0f);
                 go.GetComponent<ScoreRow>().Setup(attempt);
             }
         }

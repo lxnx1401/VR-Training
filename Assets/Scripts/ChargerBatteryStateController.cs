@@ -58,6 +58,11 @@ public class ChargerBatteryStateController : MonoBehaviour
     {
         if (!IsValidBattery(args.interactableObject)) return;
         SetBatteryState(stateChargingLoading);
+
+        if (RobotShutdownManager.instance != null)
+    {
+        RobotShutdownManager.instance.CompleteShutdownTask();
+    }
     }
 
     private void OnSocketSelectExited(SelectExitEventArgs args)

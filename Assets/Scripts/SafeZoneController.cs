@@ -41,10 +41,18 @@ public class SafeZoneController : MonoBehaviour
     // Aktif olan Status Manager'ı bulup ona mesaj gönderen yardımcı fonksiyon
     private void SendStatusMessage(string message)
     {
-        if (offRobot != null && offRobot.gameObject.activeInHierarchy && offStatusManager != null)
-            offStatusManager.UpdateStatus(message);
-        else if (onRobot != null && onRobot.gameObject.activeInHierarchy && onStatusManager != null)
-            onStatusManager.UpdateStatus(message);
+        // 1. ÖNCE: OnRobot aktifse ona gönder (Öncelik çalışan robottadır)
+        if (onRobot != null && onRobot.gameObject.activeInHierarchy)
+        {
+            if (onStatusManager != null) 
+                onStatusManager.UpdateStatus(message);
+        }
+        // 2. SONRA: OnRobot kapalıysa OffRobot'a bak
+        else if (offRobot != null && offRobot.gameObject.activeInHierarchy)
+        {
+            if (offStatusManager != null) 
+                offStatusManager.UpdateStatus(message);
+        }
     }
 
     void UpdateSafetyLogic()

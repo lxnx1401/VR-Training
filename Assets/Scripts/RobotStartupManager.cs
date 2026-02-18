@@ -18,82 +18,74 @@ public class RobotStartupManager : MonoBehaviour
     private void Awake() => instance = this;
 
     // --- ADIM TAKİPLERİ ---
-
-public void SetLeverState(bool currentState)
-{
-    // Kol YUKARI çekildiyse
-    if (currentState == true) 
+    public void SetLeverState(bool currentState)
     {
-        hasLiftedLever = true;
-        hasLoweredLever = false; // Tekrar kaldırıldıysa indirilmiş sayılmaz
-        Debug.Log("Kol yukarıda.");
+        if (currentState == true) 
+        {
+            hasLiftedLever = true;
+            hasLoweredLever = false; 
+            Debug.Log("Kol yukarıda.");
+        }
+        else 
+        {
+            hasLoweredLever = true;
+            Debug.Log("Kol aşağıda.");
+        }
     }
-    // Kol AŞAĞI indirildiyse (hasClickedBattery şartını sildik!)
-    else 
-    {
-        hasLoweredLever = true;
-        Debug.Log("Kol aşağıda.");
-    }
-}
 
     // --- START TUŞU FONKSİYONU ---
-    // Bu metodu Start butonunun OnClick event'ine bağlayacaksın
-   public void OnStartButtonPressed()
-{
-    // 1. KİLİT: Batarya fiziksel olarak sokette mi?
-    if (socketState == null || !socketState.IsBatteryInSocket)
+    public void OnStartButtonPressed()
     {
-        Debug.LogWarning("Batarya yok! Robot çalıştırılamaz.");
-        return; 
-    }
-
-    // 2. KİLİT: Bataryaya tıklanıp "ON" konumuna getirildi mi?
-    // hasClickedBattery değişkenini InSocketClick scriptinden dolduruyorduk
-    if (!hasClickedBattery)
-    {
-        Debug.LogWarning("Batarya takılı ama aktif değil (Tıklanmadı)!");
-        // Oyuncuya burada "Bataryayı aktif etmelisin" gibi bir uyarı verebilirsin
-        return;
-    }
-
-    // --- BURADAN AŞAĞISI SADECE İKİ KİLİT DE AÇILDIYSA ÇALIŞIR ---
-
-    if (socketState.offRobot.activeSelf)
-    {
-        socketState.SwapRobots();
-        
-        if (TaskUIManager.instance != null)
+        if (socketState == null || !socketState.IsBatteryInSocket)
         {
-            TaskUIManager.instance.CompleteTask("StartRobot");
-        }
-    }
-
-    CheckProcedureAndScore();
-}
-
-  private void CheckProcedureAndScore()
-{
-    // Tek kural: Kol aşağıda mı?
-    if (hasLoweredLever)
-    {
-        // BAŞARI: Puanı ver ama lastErrorName'e dokunma (Eski hata kalsın)
-        Debug.Log("<color=green>Başarılı çalıştırma!</color>");
-        
-    }
-    else
-    {
-        // HATA: Kolu unuttun. Deftere yaz, puanı kes.
-        Debug.Log("<color=red>Hata: Kol indirilmedi!</color>");
-        
-        if (GlobalDataManager.instance != null)
-        {
-            GlobalDataManager.instance.lastErrorName = "LEVER NOT LOWERED"; 
-            GlobalDataManager.instance.AddPoints(-250);
-            GlobalDataManager.instance.totalMistakes++;
+            Debug.LogWarning("Batarya yok! Robot çalıştırılamaz.");
+            return; 
         }
 
-        // Rapor panosunu aç ki hatayı görsün
-        FindObjectOfType<ReportSlideController>()?.OpenReport();
+        if (!hasClickedBattery)
+        {
+            Debug.LogWarning("Batarya takılı ama aktif değil (Tıklanmadı)!");
+            return;
+        }
+
+        // --- DEĞİŞİKLİK BURADA: Artık ShutdownManager'daki ışınlama metodunu çağırıyoruz ---
+        if (socketState.offRobot != null)
+        {
+            // Eskiden socketState.SwapRobots() idi, şimdi yeni sisteme bağladık:
+            if (RobotShutdownManager.instance != null)
+            {
+                RobotShutdownManager.instance.ExecuteSwapToOn();
+            }
+            else
+            {
+                Debug.LogError("RobotShutdownManager bulunamadı! Işınlama yapılamıyor.");
+            }
+            
+            if (TaskUIManager.instance != null)
+            {
+                TaskUIManager.instance.CompleteTask("StartRobot");
+            }
+        }
+
+        CheckProcedureAndScore();
     }
-}
+
+    private void CheckProcedureAndScore()
+    {
+        if (hasLoweredLever)
+        {
+            Debug.Log("<color=green>Başarılı çalıştırma!</color>");
+        }
+        else
+        {
+            Debug.Log("<color=red>Hata: Kol indirilmedi!</color>");
+            if (GlobalDataManager.instance != null)
+            {
+                GlobalDataManager.instance.lastErrorName = "LEVER NOT LOWERED"; 
+                GlobalDataManager.instance.AddPoints(-250);
+                GlobalDataManager.instance.totalMistakes++;
+            }
+            FindObjectOfType<ReportSlideController>()?.OpenReport();
+        }
+    }
 }
