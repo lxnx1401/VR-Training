@@ -29,5 +29,11 @@ public class XRToggleAnimatorBool : MonoBehaviour
         {
             RobotStartupManager.instance.SetLeverState(nextState);
         }
+        var grab = GetComponentInParent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable>();
+        if (grab != null)
+        {
+            grab.enabled = true;
+            Debug.Log("Kol tetiklendi, robotun tutma özelliği (Grab) geri açıldı.");
+        }
     }
 }

@@ -3,6 +3,9 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class BatterySocketState : MonoBehaviour
 {
+
+
+    
     
     public bool IsBatteryInSocket { get; private set; }
 
@@ -82,27 +85,67 @@ private void OnEntered(SelectEnterEventArgs args)
 }
 
     public void SwapRobots()
-{
-    if (offRobot != null && onRobot != null)
     {
-        // 1. Bataryayı yok et (Görsel karmaşa bitsin)
-        if (socket.interactablesSelected.Count > 0)
+        if (offRobot != null && onRobot != null)
         {
-            GameObject battery = socket.interactablesSelected[0].transform.gameObject;
-            Destroy(battery); 
+            // Rigidbody sıfırlama (Titremeyi önlemek için)
+            Rigidbody rb = onRobot.GetComponent<Rigidbody>(); // onRobot'u kontrol etmeliyiz çünkü o yeni doğuyor
+            if(rb != null) {
+                rb.linearVelocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
+            }
+
+            // 1. Bataryayı yok et
+            if (socket.interactablesSelected.Count > 0)
+            {
+                GameObject battery = socket.interactablesSelected[0].transform.gameObject;
+                Destroy(battery); 
+            }
+
+            // 2. Pozisyonu ayarla (Y eksenini düzeltiyoruz)
+            Vector3 spawnPos = offRobot.transform.position;
+            spawnPos.y -= 1.0f; // On robot, Off robottan 1 metre yukarıda doğsun
+            
+            onRobot.transform.position = spawnPos;
+            onRobot.transform.rotation = offRobot.transform.rotation;
+
+            onRobot.transform.rotation = offRobot.transform.rotation * Quaternion.Euler(0, 180f, 0);
+
+            // 3. Robotları değiştir
+            offRobot.SetActive(false);
+            onRobot.SetActive(true);
+
+            if (swapEffect != null) Instantiate(swapEffect, onRobot.transform.position, Quaternion.identity);
         }
-
-        // 2. Pozisyonu ve rotasyonu birebir kopyala
-        onRobot.transform.position = offRobot.transform.position;
-        onRobot.transform.rotation = offRobot.transform.rotation;
-
-        // 3. KRİTİK: Robotları değiştir
-        offRobot.SetActive(false); // Eskisi tamamen kapansın
-        onRobot.SetActive(true);   // Yenisi tam o noktada belirsin
-
-        if (swapEffect != null) Instantiate(swapEffect, onRobot.transform.position, Quaternion.identity);
     }
-}
+public void SwapToOff()
+    {
+        if (onRobot != null && offRobot != null && onRobot.activeSelf)
+        {
+            // Rigidbody sıfırlama
+            Rigidbody rb = offRobot.GetComponent<Rigidbody>();
+            if(rb != null) {
+                rb.linearVelocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
+            }
+
+            // 1. Pozisyonu al ve 1 metre aşağı indir (Havada asılı kalmasın diye)
+            Vector3 targetPos = onRobot.transform.position;
+            targetPos.y += 1.0f; // YUKARIDAKİ robotu AŞAĞI indiriyoruz
+            
+            offRobot.transform.position = targetPos;
+            
+            // 2. 180 derece dönüşü koru
+            offRobot.transform.rotation = onRobot.transform.rotation * Quaternion.Euler(0, 180f, 0);
+
+            // 3. Değişimi yap
+            onRobot.SetActive(false);
+            offRobot.SetActive(true);
+
+            if (swapEffect != null) Instantiate(swapEffect, offRobot.transform.position, Quaternion.identity);
+        }
+        
+    }
 
     private void OnExited(SelectExitEventArgs args)
     {

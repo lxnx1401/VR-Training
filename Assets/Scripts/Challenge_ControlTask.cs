@@ -36,6 +36,18 @@ public class Challenge_ControlTask : MonoBehaviour
     {
         if (isTaskCompleted || !taskStarted) return;
 
+        bool inRed = IsInDangerZone("Red");
+    bool inYellow = IsInDangerZone("Yellow");
+
+    if (inRed || inYellow)
+    {
+        // Tehlikeli alandaysa süreyi sıfırla ve akıtma
+        currentTimer = requiredTime;
+        if (timerText != null) timerText.text = "AREA UNSAFE! RESETTING...";
+    }
+    else
+    {
+
         currentTimer -= Time.deltaTime;
         if (currentTimer < 0) currentTimer = 0;
         UpdateTimerUI();
@@ -49,6 +61,7 @@ public class Challenge_ControlTask : MonoBehaviour
         {
             CompleteTask();
         }
+    }
     }
 
     public void StartMovementTask()
