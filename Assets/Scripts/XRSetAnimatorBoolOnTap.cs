@@ -5,6 +5,7 @@ public class XRToggleAnimatorBool : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private string boolName = "Pressed";
     [SerializeField] private float cooldown = 0.15f;
+    [SerializeField] private UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable robotMainGrab;
 
     private float lastTime = -999f;
 
@@ -29,11 +30,9 @@ public class XRToggleAnimatorBool : MonoBehaviour
         {
             RobotStartupManager.instance.SetLeverState(nextState);
         }
-        var grab = GetComponentInParent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable>();
-        if (grab != null)
-        {
-            grab.enabled = true;
-            Debug.Log("Kol tetiklendi, robotun tutma özelliği (Grab) geri açıldı.");
-        }
+       if (robotMainGrab != null)
+    {
+        robotMainGrab.enabled = true;
+    }
     }
 }

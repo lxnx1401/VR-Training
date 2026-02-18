@@ -14,6 +14,9 @@ public class BatterySocketState : MonoBehaviour
     [Header("Robot Swap Settings")]
     [Tooltip("Sahnede şu an duran, çalışan/aktif olmayan robot")]
     public GameObject offRobot; 
+
+    [Header("Shutdown Fix")]
+public UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable robotMainGrab;
     
     [Tooltip("Kumanda ile çalışabilen, aktif robot (Başta kapalı olmalı)")]
     public GameObject onRobot;  
@@ -114,6 +117,7 @@ private void OnEntered(SelectEnterEventArgs args)
             // 3. Robotları değiştir
             offRobot.SetActive(false);
             onRobot.SetActive(true);
+            
 
             if (swapEffect != null) Instantiate(swapEffect, onRobot.transform.position, Quaternion.identity);
         }
@@ -142,6 +146,13 @@ public void SwapToOff()
             onRobot.SetActive(false);
             offRobot.SetActive(true);
 
+            if (robotMainGrab != null) 
+        {
+            robotMainGrab.enabled = false; 
+            Debug.Log("Ana gövde tutma kapatıldı.");
+        }
+
+            
             if (swapEffect != null) Instantiate(swapEffect, offRobot.transform.position, Quaternion.identity);
         }
         
