@@ -28,8 +28,8 @@ public class RobotShutdownManager : MonoBehaviour
         if (socketState == null) return;
 
         // 1. ÖNCE: onRobot'u, offRobot'un şu anki tam konumuna getir
-        socketState.onRobot.transform.position = socketState.offRobot.transform.position;
-        socketState.onRobot.transform.rotation = socketState.offRobot.transform.rotation;
+       socketState.onRobot.transform.position = socketState.offRobot.transform.position + new Vector3(0, -1f, 0);
+        socketState.onRobot.transform.rotation = socketState.offRobot.transform.rotation * Quaternion.Euler(0, 180f, 0);
 
         // 2. SONRA: Off Robot'u üst kata ışınla
         socketState.offRobot.transform.position = offRobotWaitingPos;

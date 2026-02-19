@@ -135,21 +135,25 @@ public class InSocketClickSetsBoolTrue_NoGrab : MonoBehaviour
         bool isOff = (current == stateOff);
         bool isOnOrUsed = (current == stateOnIdle || current == stateUsedIdle);
 
-        if (isOff)
-        {
-            targetAnimator.SetInteger(stateIntName, statePowerOn);
-            if (RobotStartupManager.instance != null)
-                RobotStartupManager.instance.hasClickedBattery = true;
-        }
-        else if (isOnOrUsed)
-        {
-            targetAnimator.SetInteger(stateIntName, statePowerOff);
-            if (RobotStartupManager.instance != null)
-                RobotStartupManager.instance.hasClickedBattery = false; 
+        if (current == stateOff) // Eğer 0 ise (Kapalıysa)
+{
+    targetAnimator.SetInteger(stateIntName, statePowerOn);
+    if (RobotStartupManager.instance != null)
+        RobotStartupManager.instance.hasClickedBattery = true;
+}
+else // Eğer 0 değilse (1, 2, 3 veya 4 fark etmez, tıklandığında kapansın)
+{
+    Debug.Log("BATARYA KAPATMA KOMUTU ÇALIŞTI! (State: " + current + ")");
+    targetAnimator.SetInteger(stateIntName, statePowerOff);
+    
+    
 
-            if (module06 != null)
-                module06.NotifyBatteryPowerOff_Explicit();
-        }
+    if (module06 != null)
+        module06.NotifyBatteryPowerOff_Explicit();
+
+    if (RobotShutdownManager.instance != null)
+        RobotShutdownManager.instance.OnBatteryClickedOff();
+}
     }
     // Bu metod Unity Event'lerinden (Activated gibi) çağrılabilecek
 public void TriggerClickManual(SelectEnterEventArgs args)
